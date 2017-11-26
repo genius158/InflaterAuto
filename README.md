@@ -6,7 +6,7 @@
 View开始测量绘制之前，不会造成二次绘制，性能上除了View创建完成时对其递归调整LayoutParams之外，是没有
 任何影响的。
 
-#### 1.切入点
+#### 选择切入点
 ```
 view的设置LayoutParams是在LayoutInflater的rInflate方法中执行的
 void rInflate(XmlPullParser parser, View parent, Context context,
