@@ -22,3 +22,27 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 ```
 可以看到，LayoutParams是在这里创建的，这个方法是我们最需要更改操作的，然而我们并不能覆写这个方法，想要操作到这行代码，需要我们完全重写LayoutInflater，
 在Android自身的升级过程中，这个类的各种更改，难以把控。最终还是选择在inflate返回View以后直接对View做调整，来实现适配。
+## 使用
+```
+// application 初始化
+public class InflaterAutoApp extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        InflaterAuto.init(new InflaterAuto.Builder()
+                .width(720)
+                .height(800)
+                .addException(AppBarLayout.class)//add do not need adjust view type
+                .build()
+        );
+    }
+
+ 
+    @Override
+    protected void attachBaseContext(Context base) {
+        //替换Infater
+        super.attachBaseContext(InflaterAuto.wrap(base));
+    }
+}
+```
