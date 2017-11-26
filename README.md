@@ -45,4 +45,13 @@ public class InflaterAutoApp extends Application {
         super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }
+
+// activity 重写attachBaseContext
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void attachBaseContext(Context base) {
+        //替换Infater
+        super.attachBaseContext(InflaterAuto.wrap(base));
+    }
+}
 ```
