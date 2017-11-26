@@ -12,21 +12,212 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="200px"
-        android:layout_marginLeft="100px"
-        android:background="#954fa652"
+        android:layout_height="42px"
+        android:background="#953e8e79"
+        android:gravity="center"
         android:text="Hello World!"
-        android:textSize="42px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="42px" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95878787"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95828b82"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="120px"
+            android:layout_height="80px"
+            android:background="#956f9670"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#956a996c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#954b7b4c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#d44fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#4fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95878787"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95828b82"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="120px"
+            android:layout_height="80px"
+            android:background="#956f9670"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#956a996c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#954b7b4c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#d44fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#4fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95878787"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#95828b82"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="120px"
+            android:layout_height="80px"
+            android:background="#956f9670"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#956a996c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#954b7b4c"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#d44fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+        <TextView
+            android:layout_width="100px"
+            android:layout_height="80px"
+            android:background="#4fa652"
+            android:gravity="center"
+            android:text="Hello World!"
+            android:textSize="42px" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical" />
 
 </LinearLayout>
