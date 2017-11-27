@@ -1,4 +1,13 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'yan157'
+    groupId = 'com.yan'
+    artifactId = 'inflaterauto'
+    publishVersion = '1.0.0'
+    website = 'https://github.com/genius158/InflaterAuto/'
+}
 
 android {
     compileSdkVersion 26
