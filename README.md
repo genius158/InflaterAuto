@@ -2,10 +2,10 @@
 一个小而精致的UI适配库
 
 ### 已下设计图纸为720*1280
-![screen1080*1920](art/screen1080_1920)
-![screen480*800](art/screen480_800)
+![screen1080*1920](art/screen1080_1920.jpg)
+![screen480*800](art/screen480_800.jpg)
 <br/>
-![screen1920*1080](art/screen1920_1080)
+![screen1920*1080](art/screen1920_1080.jpg)
 
 
 ## 说明
