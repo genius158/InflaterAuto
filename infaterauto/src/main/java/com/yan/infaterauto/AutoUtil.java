@@ -30,29 +30,29 @@ public class AutoUtil {
             final ViewGroup.LayoutParams lp = view.getLayoutParams();
             if (lp != null) {
                 if (lp.width != -1 && lp.width != -2) {
-                    lp.width = (int) (lp.width * hRatio);
+                    lp.width = (int) (lp.width * hRatio + 0.5);
                 }
                 if (lp.height != -1 && lp.height != -2) {
-                    lp.height = (int) (lp.height * vRatio);
+                    lp.height = (int) (lp.height * vRatio + 0.5);
                 }
 
-                view.setPadding((int) (view.getPaddingLeft() * hRatio)
-                        , (int) (view.getPaddingTop() * vRatio)
-                        , (int) (view.getPaddingRight() * hRatio)
-                        , (int) (view.getPaddingBottom() * vRatio)
+                view.setPadding((int) (view.getPaddingLeft() * hRatio + 0.5)
+                        , (int) (view.getPaddingTop() * vRatio + 0.5)
+                        , (int) (view.getPaddingRight() * hRatio + 0.5)
+                        , (int) (view.getPaddingBottom() * vRatio + 0.5)
                 );
 
                 if (lp instanceof ViewGroup.MarginLayoutParams) {
                     final ViewGroup.MarginLayoutParams mplp = (ViewGroup.MarginLayoutParams) lp;
-                    mplp.leftMargin = (int) (mplp.leftMargin * hRatio);
-                    mplp.rightMargin = (int) (mplp.rightMargin * hRatio);
-                    mplp.topMargin = (int) (mplp.topMargin * vRatio);
-                    mplp.bottomMargin = (int) (mplp.bottomMargin * vRatio);
+                    mplp.leftMargin = (int) (mplp.leftMargin * hRatio + 0.5);
+                    mplp.rightMargin = (int) (mplp.rightMargin * hRatio + 0.5);
+                    mplp.topMargin = (int) (mplp.topMargin * vRatio + 0.5);
+                    mplp.bottomMargin = (int) (mplp.bottomMargin * vRatio + 0.5);
                 }
 
                 if (view instanceof TextView) {
                     final TextView tv = (TextView) view;
-                    final float textSize = tv.getTextSize() * hRatio;
+                    final float textSize = tv.getTextSize() * Math.min(hRatio, vRatio);
                     tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
                 }
 

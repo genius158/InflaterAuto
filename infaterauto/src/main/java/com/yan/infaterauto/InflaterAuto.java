@@ -15,12 +15,8 @@ public class InflaterAuto {
     private static InflaterAuto INFLATER_AUTO;
     private HashSet<Class> exceptions;
 
-    private float designWidth;
-    private float designHeight;
     private float hRatio;
     private float vRatio;
-
-    private BaseOnDirection baseOnDirection;
 
     public static InflaterAuto getInstance() {
         if (INFLATER_AUTO == null) {
@@ -38,10 +34,8 @@ public class InflaterAuto {
     }
 
     private InflaterAuto(Builder builder) {
-        designWidth = builder.designWidth;
-        designHeight = builder.designHeight;
-
-        baseOnDirection = builder.baseOnDirection;
+        hRatio = builder.hRatio;
+        vRatio = builder.vRatio;
 
         if (!builder.exceptions.isEmpty()) {
             exceptions = new HashSet<>();
@@ -62,25 +56,6 @@ public class InflaterAuto {
     }
 
     public static ContextWrapper wrap(Context base) {
-        if (INFLATER_AUTO != null && (INFLATER_AUTO.hRatio == 0 || INFLATER_AUTO.vRatio == 0)) {
-            WindowManager wm = (WindowManager) base.getSystemService(Context.WINDOW_SERVICE);
-            if (wm != null) {
-                DisplayMetrics metrics = new DisplayMetrics();
-                wm.getDefaultDisplay().getMetrics(metrics);
-                switch (INFLATER_AUTO.baseOnDirection) {
-                    case Horizontal:
-                        INFLATER_AUTO.vRatio = INFLATER_AUTO.hRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
-                        break;
-                    case Vertical:
-                        INFLATER_AUTO.hRatio = INFLATER_AUTO.vRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
-                        break;
-                    case Both:
-                        INFLATER_AUTO.hRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
-                        INFLATER_AUTO.vRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
-                        break;
-                }
-            }
-        }
         return new AutoContextWrapper(base);
     }
 
@@ -88,10 +63,19 @@ public class InflaterAuto {
     public static class Builder {
         private final HashSet<Class> exceptions = new HashSet<>();
 
+        private Context context;
+
+        private BaseOn baseOn = BaseOn.Both;
+
         private float designWidth = 720;
         private float designHeight = 1280;
 
-        private BaseOnDirection baseOnDirection = BaseOnDirection.Both;
+        private float hRatio = 0;
+        private float vRatio = 0;
+
+        public Builder(Context context) {
+            this.context = context;
+        }
 
         public Builder width(float designWidth) {
             this.designWidth = designWidth;
@@ -103,8 +87,8 @@ public class InflaterAuto {
             return this;
         }
 
-        public Builder baseOnDirection(BaseOnDirection direction) {
-            this.baseOnDirection = direction;
+        public Builder baseOnDirection(BaseOn direction) {
+            this.baseOn = direction;
             return this;
         }
 
@@ -114,11 +98,32 @@ public class InflaterAuto {
         }
 
         public InflaterAuto build() {
+            calculateRatio();
             return new InflaterAuto(this);
+        }
+
+        private void calculateRatio() {
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            if (wm != null) {
+                DisplayMetrics metrics = new DisplayMetrics();
+                wm.getDefaultDisplay().getMetrics(metrics);
+                switch (baseOn) {
+                    case Horizontal:
+                        vRatio = hRatio = metrics.widthPixels / designWidth;
+                        break;
+                    case Vertical:
+                        hRatio = vRatio = metrics.heightPixels / designHeight;
+                        break;
+                    case Both:
+                        hRatio = metrics.widthPixels / designWidth;
+                        vRatio = metrics.heightPixels / designHeight;
+                        break;
+                }
+            }
         }
     }
 
-    public enum BaseOnDirection {
+    public enum BaseOn {
         Horizontal, Vertical, Both
     }
 }
