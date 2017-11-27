@@ -11,8 +11,8 @@
 
 
 ## 概述
-原理和AndroidAutoLayout一样遍历子View调整相关属性，但是本库由LayoutInflater入手，更改获取布局解析服务的方法，返回我们自己的布局解析器
-，在创建View的完成时，就对View（包括子View，如果有）的LayoutParams进行调整，来做适配，这个步骤是在View开始测量绘制之前，不会造成二次
+本库由LayoutInflater入手，更改获取布局解析服务的方法，返回我们自己的布局解析器，在创建View的完成时
+，就对View（包括子View，如果有）的LayoutParams进行调整，来做适配，这个步骤是在View开始测量绘制之前，不会造成二次
 绘制，性能上除了View创建完成时对其递归调整LayoutParams之外，是没有任何影响的。
 
 #### 选择切入点
@@ -29,8 +29,10 @@ void rInflate(XmlPullParser parser, View parent, Context context,
     ...
     }
 ```
-可以看到，LayoutParams是在这里创建的，这个方法是我们最需要更改操作的，然而我们并不能覆写这个方法，想要操作到这行代码，需要我们完全重写LayoutInflater，
-，一些内部方法，我们并不能使用，同时在Android自身的升级过程中，这个类的各种更改，难以把控。最终还是选择在inflate返回View以后直接对View做调整，来实现适配。
+可以看到，LayoutParams是在这里创建的，这个方法是我们最需要更改操作的，然而我们并不能覆写这个方法，AndroidAutoLayout有一系列的Auto开头的ViewGroup
+，其重写的也就是generateLayoutParams，直接返回调整过的params，然而它仍然需要在OnMeasure的时候对所有子View内部相关属性做调整，
+如果想在rInflate方法里，在创建完View后直接做调整，需要我们完全重写LayoutInflater，然而一些内部方法，我们并不能使用，同时在
+Android自身的升级过程中，这个类的各种更改，难以把控。最终还是选择在inflate返回View以后直接对View做调整，来实现适配。
 
 ## gradle
 compile 'com.yan:inflaterauto:1.0.1'
