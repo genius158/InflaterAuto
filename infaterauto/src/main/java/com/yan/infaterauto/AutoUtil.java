@@ -17,48 +17,48 @@ public class AutoUtil {
             return view;
         }
 
-        final float wRatio = inflaterAuto.getWRatio();
-        final float yRatio = inflaterAuto.getYRatio();
+        final float hRatio = inflaterAuto.getHRatio();
+        final float vRatio = inflaterAuto.getVRatio();
 
-        innerAuto(view, inflaterAuto, wRatio, yRatio);
+        innerAuto(view, inflaterAuto, hRatio, vRatio);
 
         return view;
     }
 
-    private static void innerAuto(View view, InflaterAuto inflaterAuto, float wRatio, float yRatio) {
+    private static void innerAuto(View view, InflaterAuto inflaterAuto, float hRatio, float vRatio) {
         if (view != null && inflaterAuto.except(view.getClass())) {
             final ViewGroup.LayoutParams lp = view.getLayoutParams();
             if (lp != null) {
                 if (lp.width != -1 && lp.width != -2) {
-                    lp.width = (int) (lp.width * wRatio);
+                    lp.width = (int) (lp.width * hRatio);
                 }
                 if (lp.height != -1 && lp.height != -2) {
-                    lp.height = (int) (lp.height * yRatio);
+                    lp.height = (int) (lp.height * vRatio);
                 }
 
-                view.setPadding((int) (view.getPaddingLeft() * wRatio)
-                        , (int) (view.getPaddingTop() * yRatio)
-                        , (int) (view.getPaddingRight() * wRatio)
-                        , (int) (view.getPaddingBottom() * yRatio)
+                view.setPadding((int) (view.getPaddingLeft() * hRatio)
+                        , (int) (view.getPaddingTop() * vRatio)
+                        , (int) (view.getPaddingRight() * hRatio)
+                        , (int) (view.getPaddingBottom() * vRatio)
                 );
 
                 if (lp instanceof ViewGroup.MarginLayoutParams) {
                     final ViewGroup.MarginLayoutParams mplp = (ViewGroup.MarginLayoutParams) lp;
-                    mplp.leftMargin = (int) (mplp.leftMargin * wRatio);
-                    mplp.rightMargin = (int) (mplp.rightMargin * wRatio);
-                    mplp.topMargin = (int) (mplp.topMargin * yRatio);
-                    mplp.bottomMargin = (int) (mplp.bottomMargin * yRatio);
+                    mplp.leftMargin = (int) (mplp.leftMargin * hRatio);
+                    mplp.rightMargin = (int) (mplp.rightMargin * hRatio);
+                    mplp.topMargin = (int) (mplp.topMargin * vRatio);
+                    mplp.bottomMargin = (int) (mplp.bottomMargin * vRatio);
                 }
 
                 if (view instanceof TextView) {
                     final TextView tv = (TextView) view;
-                    final float textSize = tv.getTextSize() * wRatio;
+                    final float textSize = tv.getTextSize() * hRatio;
                     tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
                 }
 
                 if ((view instanceof ViewGroup) && !(view instanceof AbsListView) && !(view instanceof RecyclerView)) {
                     for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                        innerAuto(((ViewGroup) view).getChildAt(i), inflaterAuto, wRatio, yRatio);
+                        innerAuto(((ViewGroup) view).getChildAt(i), inflaterAuto, hRatio, vRatio);
                     }
                 }
             }
@@ -66,11 +66,11 @@ public class AutoUtil {
     }
 
     public static float getValueHorizontal(float value) {
-        return InflaterAuto.getInstance().getWRatio() * value;
+        return InflaterAuto.getInstance().getHRatio() * value;
     }
 
     public static float getValueVertical(float value) {
-        return InflaterAuto.getInstance().getYRatio() * value;
+        return InflaterAuto.getInstance().getVRatio() * value;
     }
 }
 

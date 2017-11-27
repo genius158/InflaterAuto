@@ -5,7 +5,7 @@ import android.content.ContextWrapper;
 import android.view.WindowManager;
 import android.util.DisplayMetrics;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by yan on 25/11/2017
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class InflaterAuto {
 
     private static InflaterAuto INFLATER_AUTO;
-    private ArrayList<Class> exceptions;
+    private HashSet<Class> exceptions;
 
     private float designWidth;
     private float designHeight;
-    private float wRatio;
-    private float yRatio;
+    private float hRatio;
+    private float vRatio;
 
     private BaseOnDirection baseOnDirection;
 
@@ -44,17 +44,17 @@ public class InflaterAuto {
         baseOnDirection = builder.baseOnDirection;
 
         if (!builder.exceptions.isEmpty()) {
-            exceptions = new ArrayList<>();
+            exceptions = new HashSet<>();
             exceptions.addAll(builder.exceptions);
         }
     }
 
-    float getWRatio() {
-        return wRatio;
+    float getHRatio() {
+        return hRatio;
     }
 
-    float getYRatio() {
-        return yRatio;
+    float getVRatio() {
+        return vRatio;
     }
 
     boolean except(Class clazz) {
@@ -62,21 +62,21 @@ public class InflaterAuto {
     }
 
     public static ContextWrapper wrap(Context base) {
-        if (INFLATER_AUTO != null && (INFLATER_AUTO.wRatio == 0 || INFLATER_AUTO.yRatio == 0)) {
+        if (INFLATER_AUTO != null && (INFLATER_AUTO.hRatio == 0 || INFLATER_AUTO.vRatio == 0)) {
             WindowManager wm = (WindowManager) base.getSystemService(Context.WINDOW_SERVICE);
             if (wm != null) {
                 DisplayMetrics metrics = new DisplayMetrics();
                 wm.getDefaultDisplay().getMetrics(metrics);
                 switch (INFLATER_AUTO.baseOnDirection) {
                     case Horizontal:
-                        INFLATER_AUTO.yRatio = INFLATER_AUTO.wRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
+                        INFLATER_AUTO.vRatio = INFLATER_AUTO.hRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
                         break;
                     case Vertical:
-                        INFLATER_AUTO.wRatio = INFLATER_AUTO.yRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
+                        INFLATER_AUTO.hRatio = INFLATER_AUTO.vRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
                         break;
                     case Both:
-                        INFLATER_AUTO.wRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
-                        INFLATER_AUTO.yRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
+                        INFLATER_AUTO.hRatio = metrics.widthPixels / INFLATER_AUTO.designWidth;
+                        INFLATER_AUTO.vRatio = metrics.heightPixels / INFLATER_AUTO.designHeight;
                         break;
                 }
             }
@@ -86,7 +86,7 @@ public class InflaterAuto {
 
 
     public static class Builder {
-        private final ArrayList<Class> exceptions = new ArrayList<>();
+        private final HashSet<Class> exceptions = new HashSet<>();
 
         private float designWidth = 720;
         private float designHeight = 1280;

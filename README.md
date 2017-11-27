@@ -32,17 +32,17 @@ public class InflaterAutoApp extends Application {
         super.onCreate();
         InflaterAuto.init(new InflaterAuto.Builder()
                 .width(720)
-                .height(800)
+                .height(1280)
+                .baseOnDirection(InflaterAuto.BaseOnDirection.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
                 .addException(AppBarLayout.class)//add do not need adjust view type
                 .build()
         );
     }
 
- 
-    @Override
+   @Override
     protected void attachBaseContext(Context base) {
-        //替换Infater
-        super.attachBaseContext(InflaterAuto.wrap(base));
+        //替换Infater
+        super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }
 
@@ -50,8 +50,8 @@ public class InflaterAutoApp extends Application {
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context base) {
-        //替换Infater
-        super.attachBaseContext(InflaterAuto.wrap(base));
+        //替换Infater
+        super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }
 ```

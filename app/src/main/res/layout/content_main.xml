@@ -12,7 +12,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="42px"
+        android:layout_height="50px"
         android:background="#953e8e79"
         android:gravity="center"
         android:text="Hello World!"
@@ -27,7 +27,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95878787"
             android:gravity="center"
             android:text="Hello World!"
@@ -35,7 +35,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95828b82"
             android:gravity="center"
             android:text="Hello World!"
@@ -43,7 +43,7 @@
 
         <TextView
             android:layout_width="120px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956f9670"
             android:gravity="center"
             android:text="Hello World!"
@@ -51,7 +51,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956a996c"
             android:gravity="center"
             android:text="Hello World!"
@@ -59,7 +59,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#954b7b4c"
             android:gravity="center"
             android:text="Hello World!"
@@ -67,7 +67,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#d44fa652"
             android:gravity="center"
             android:text="Hello World!"
@@ -75,7 +75,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#4fa652"
             android:gravity="center"
             android:text="Hello World!"
@@ -92,7 +92,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95878787"
             android:gravity="center"
             android:text="Hello World!"
@@ -100,7 +100,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95828b82"
             android:gravity="center"
             android:text="Hello World!"
@@ -108,7 +108,7 @@
 
         <TextView
             android:layout_width="120px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956f9670"
             android:gravity="center"
             android:text="Hello World!"
@@ -116,7 +116,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956a996c"
             android:gravity="center"
             android:text="Hello World!"
@@ -124,7 +124,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#954b7b4c"
             android:gravity="center"
             android:text="Hello World!"
@@ -132,7 +132,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#d44fa652"
             android:gravity="center"
             android:text="Hello World!"
@@ -140,7 +140,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#4fa652"
             android:gravity="center"
             android:text="Hello World!"
@@ -157,7 +157,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95878787"
             android:gravity="center"
             android:text="Hello World!"
@@ -165,7 +165,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#95828b82"
             android:gravity="center"
             android:text="Hello World!"
@@ -173,7 +173,7 @@
 
         <TextView
             android:layout_width="120px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956f9670"
             android:gravity="center"
             android:text="Hello World!"
@@ -181,7 +181,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#956a996c"
             android:gravity="center"
             android:text="Hello World!"
@@ -189,7 +189,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#954b7b4c"
             android:gravity="center"
             android:text="Hello World!"
@@ -197,7 +197,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#d44fa652"
             android:gravity="center"
             android:text="Hello World!"
@@ -205,7 +205,7 @@
 
         <TextView
             android:layout_width="100px"
-            android:layout_height="80px"
+            android:layout_height="100px"
             android:background="#4fa652"
             android:gravity="center"
             android:text="Hello World!"
