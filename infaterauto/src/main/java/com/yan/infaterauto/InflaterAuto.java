@@ -1,7 +1,9 @@
 package com.yan.infaterauto;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.os.Bundle;
 import android.view.WindowManager;
 import android.util.DisplayMetrics;
 
@@ -15,10 +17,19 @@ public class InflaterAuto {
 
     private HashSet<Class> exceptions;
 
+    private BaseOn baseOn;
+
+    private float designWidth;
+    private float designHeight;
+
     private float hRatio;
     private float vRatio;
 
-    static InflaterAuto getInstance() {
+    public static void init(InflaterAuto inflaterAuto) {
+        INFLATER_AUTO = inflaterAuto;
+    }
+
+    public static InflaterAuto getInstance() {
         if (INFLATER_AUTO == null) {
             try {
                 throw new Exception("InflaterAuto must be init");
@@ -29,13 +40,12 @@ public class InflaterAuto {
         return INFLATER_AUTO;
     }
 
-    public static void init(InflaterAuto inflaterAuto) {
-        INFLATER_AUTO = inflaterAuto;
-    }
-
     private InflaterAuto(Builder builder) {
-        hRatio = builder.hRatio;
-        vRatio = builder.vRatio;
+        baseOn = builder.baseOn;
+        designWidth = builder.designWidth;
+        designHeight = builder.designHeight;
+
+        calculateRatio(baseOn, builder.context, designWidth, designHeight);
 
         if (!builder.exceptions.isEmpty()) {
             exceptions = new HashSet<>();
@@ -43,16 +53,42 @@ public class InflaterAuto {
         }
     }
 
-    float getHRatio() {
+    boolean except(Class clazz) {
+        return exceptions == null || !exceptions.contains(clazz);
+    }
+
+    private void calculateRatio(BaseOn baseOn, Context context, float designWidth, float designHeight) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm != null) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(metrics);
+            switch (baseOn) {
+                case Horizontal:
+                    vRatio = hRatio = metrics.widthPixels / designWidth;
+                    break;
+                case Vertical:
+                    hRatio = vRatio = metrics.heightPixels / designHeight;
+                    break;
+                case Both:
+                    hRatio = metrics.widthPixels / designWidth;
+                    vRatio = metrics.heightPixels / designHeight;
+                    break;
+            }
+        }
+    }
+
+    public float getHRatio() {
         return hRatio;
     }
 
-    float getVRatio() {
+    public float getVRatio() {
         return vRatio;
     }
 
-    boolean except(Class clazz) {
-        return exceptions == null || !exceptions.contains(clazz);
+    public void supportScreenRotation(Bundle savedInstanceState, Activity activity) {
+        if (savedInstanceState != null) {
+            calculateRatio(baseOn, activity, designWidth, designHeight);
+        }
     }
 
     public static ContextWrapper wrap(Context base) {
@@ -69,9 +105,6 @@ public class InflaterAuto {
 
         private float designWidth = 720;
         private float designHeight = 1280;
-
-        private float hRatio = 0;
-        private float vRatio = 0;
 
         public Builder(Context context) {
             this.context = context;
@@ -98,28 +131,7 @@ public class InflaterAuto {
         }
 
         public InflaterAuto build() {
-            calculateRatio();
             return new InflaterAuto(this);
-        }
-
-        private void calculateRatio() {
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            if (wm != null) {
-                DisplayMetrics metrics = new DisplayMetrics();
-                wm.getDefaultDisplay().getMetrics(metrics);
-                switch (baseOn) {
-                    case Horizontal:
-                        vRatio = hRatio = metrics.widthPixels / designWidth;
-                        break;
-                    case Vertical:
-                        hRatio = vRatio = metrics.heightPixels / designHeight;
-                        break;
-                    case Both:
-                        hRatio = metrics.widthPixels / designWidth;
-                        vRatio = metrics.heightPixels / designHeight;
-                        break;
-                }
-            }
         }
     }
 

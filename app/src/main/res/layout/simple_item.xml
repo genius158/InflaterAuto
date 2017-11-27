@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/id_num"
-        android:layout_width="match_parent"
+        android:layout_width="720px"
         android:layout_height="wrap_content"
         android:layout_marginTop="170px"
         android:background="#956477b6"

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
  * Created by yan on 25/11/2017
  */
 class AutoContextWrapper extends ContextWrapper {
-    private AutoInflater mInflater;
+    private AutoInflater inflater;
 
     AutoContextWrapper(Context base) {
         super(base);
@@ -17,10 +17,10 @@ class AutoContextWrapper extends ContextWrapper {
     @Override
     public Object getSystemService(String name) {
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {
-            if (mInflater == null) {
-                mInflater = new AutoInflater(LayoutInflater.from(getBaseContext()), getBaseContext());
+            if (inflater == null) {
+                inflater = new AutoInflater(LayoutInflater.from(getBaseContext()), getBaseContext());
             }
-            return mInflater;
+            return inflater;
         }
         return super.getSystemService(name);
     }
