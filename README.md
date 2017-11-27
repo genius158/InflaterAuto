@@ -2,8 +2,10 @@
 一个够小够简单的UI适配库（仅仅 四个class加一个内部类还有一个enum）
 
 #### 图例
-以下设计图纸为720_1280(图例分辨率分别为:1080_1920、480_800、1920_1080)布局中不属于ViewGroup的布局设置都是采用layout_width="px",android:layout_height="px",android:layout_marginTop="px",android:paddingLeft="px"具体px值设置
-
+以下设计图纸为720_1280(图例分辨率分别为:1080_1920、480_800、1920_1080)，布局中不属于ViewGroup的布局设置都是
+采用layout_width="px",android:layout_height="px",android:layout_marginTop="px",android:paddingLeft="px"具体px值设置
+<br/>
+<br/>
 ![screen1080_1920](art/screen1080_1920.jpg)
 ![screen480_800](art/screen480_800.jpg)
 <br/>
