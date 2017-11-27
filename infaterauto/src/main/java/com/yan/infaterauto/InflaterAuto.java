@@ -11,14 +11,14 @@ import java.util.HashSet;
  * Created by yan on 25/11/2017
  */
 public class InflaterAuto {
-
     private static InflaterAuto INFLATER_AUTO;
+
     private HashSet<Class> exceptions;
 
     private float hRatio;
     private float vRatio;
 
-    public static InflaterAuto getInstance() {
+    static InflaterAuto getInstance() {
         if (INFLATER_AUTO == null) {
             try {
                 throw new Exception("InflaterAuto must be init");

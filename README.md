@@ -1,6 +1,13 @@
 # InflaterAuto
 一个小而精致的UI适配库
 
+### 已下设计图纸为720*1280
+![screen1080*1920](art/screen1080_1920)
+![screen480*800](art/screen480_800)
+<br/>
+![screen1920*1080](art/screen1920_1080)
+
+
 ## 说明
 本库由LayoutInflater入手，更改获取布局解析服务的方法，返回我们自己的布局解析器，在创建View的完成时，就对View的LayoutParams进行调整，来做适配，这个步骤是在
 View开始测量绘制之前，不会造成二次绘制，性能上除了View创建完成时对其递归调整LayoutParams之外，是没有
@@ -30,18 +37,23 @@ public class InflaterAutoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InflaterAuto.init(new InflaterAuto.Builder()
-                .width(720)
-                .height(1280)
-                .baseOnDirection(InflaterAuto.BaseOnDirection.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
-                .addException(AppBarLayout.class)//add do not need adjust view type
-                .build()
+        InflaterAuto.init(new InflaterAuto.Builder(this)
+            .width(720)
+            .height(1280)
+            .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
+            .addException(AppBarLayout.class)//add do not need adjust view type
+            .build()
         );
     }
 
+
+    /**
+     * 如果你使用了LayoutInflater.from(getApplicationContext())或者LayoutInflater.from(getApplication())
+     * 就需要一下操作，如果没有，一下方法可以不必重写
+     */
    @Override
     protected void attachBaseContext(Context base) {
-        //替换Infater
+        //替换Inflater
         super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }
@@ -50,7 +62,7 @@ public class InflaterAutoApp extends Application {
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context base) {
-        //替换Infater
+        //替换Inflater
         super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }

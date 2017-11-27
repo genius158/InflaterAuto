@@ -20,6 +20,10 @@ public class InflaterAutoApp extends Application {
         );
     }
 
+    /**
+     * 如果你使用了LayoutInflater.from(getApplicationContext())或者LayoutInflater.from(getApplication())
+     * 就需要一下操作，如果没有，一下方法可以不必重写
+     */
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(InflaterAuto.wrap(base));
