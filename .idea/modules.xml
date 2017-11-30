@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/InflaterAutoTest.iml" filepath="$PROJECT_DIR$/InflaterAutoTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InflaterAuto.iml" filepath="$PROJECT_DIR$/InflaterAuto.iml" />
+      <module fileurl="file://F:\androidspace\FromGithub\InflaterAuto\InflaterAutoTest.iml" filepath="F:\androidspace\FromGithub\InflaterAuto\InflaterAutoTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/infaterauto/infaterauto.iml" filepath="$PROJECT_DIR$/infaterauto/infaterauto.iml" />
+      <module fileurl="file://F:\androidspace\FromGithub\InflaterAuto\infaterauto\infaterauto.iml" filepath="F:\androidspace\FromGithub\InflaterAuto\infaterauto\infaterauto.iml" />
+      <module fileurl="file://F:\androidspace\FromGithub\InflaterAuto\inflaterauto\infaterauto.iml" filepath="F:\androidspace\FromGithub\InflaterAuto\inflaterauto\infaterauto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inflaterauto/inflaterauto.iml" filepath="$PROJECT_DIR$/inflaterauto/inflaterauto.iml" />
     </modules>
   </component>
 </project>

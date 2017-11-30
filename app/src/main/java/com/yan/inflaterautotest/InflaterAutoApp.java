@@ -4,17 +4,21 @@ import android.app.Application;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 
-import com.yan.infaterauto.InflaterAuto;
+import com.yan.inflaterauto.AutoBaseOn;
+import com.yan.inflaterauto.InflaterAuto;
 
 public class InflaterAutoApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        InflaterAuto.init(new InflaterAuto.Builder(this)
+        /*
+         * 以下可以写在任何地方，只有在设置布局之前
+         */
+        InflaterAuto.init(new InflaterAuto.Builder()
                 .width(720)
                 .height(1280)
-                .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
+                .baseOnDirection(AutoBaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
                 .addException(AppBarLayout.class)//add do not need adjust view type
                 .build()
         );

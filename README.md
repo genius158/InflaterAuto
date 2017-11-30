@@ -1,5 +1,5 @@
 # InflaterAuto
-一个够小够简单的UI适配库（仅仅 四个class加一个内部类还有一个enum）
+一个够小够简单的UI适配库（仅仅 5个class加一个内部类还有一个enum）
 
 #### 图例
 以下设计图纸为720_1280(图例分辨率分别为:1080_1920、480_800、1920_1080)，布局中不属于ViewGroup的布局设置都是
@@ -37,7 +37,7 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 Android自身的升级过程中，这个类的各种更改，难以把控。最终还是选择在inflate返回View以后直接对View做调整，来实现适配。
 
 ## gradle
-compile 'com.yan:inflaterauto:1.0.1'
+compile 'com.yan:inflaterauto:1.0.2'
 
 ## 使用
 ```
@@ -47,7 +47,10 @@ public class InflaterAutoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InflaterAuto.init(new InflaterAuto.Builder(this)
+        /*
+         * 以下可以写在任何地方，只有在设置布局之前
+         */
+        InflaterAuto.init(new InflaterAuto.Builder()
             .width(720)
             .height(1280)
             .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
@@ -70,14 +73,6 @@ public class InflaterAutoApp extends Application {
 
 // activity 重写attachBaseContext
 public class MainActivity extends AppCompatActivity {
-  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //如果app支持旋转，请加上supportScreenRotation方法，且在布局设置之前调用
-        //同时保证界面正常销毁重新加载
-        InflaterAuto.getInstance().supportScreenRotation(savedInstanceState, this);
-        setContentView(R.layout.activity_main);
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
