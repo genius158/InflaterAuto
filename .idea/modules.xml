@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/InflaterAutoTest.iml" filepath="$PROJECT_DIR$/InflaterAutoTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/infaterauto/infaterauto.iml" filepath="$PROJECT_DIR$/infaterauto/infaterauto.iml" />
+      <module fileurl="file://F:\androidspace\InflaterAutoTest\inflaterauto\infaterauto.iml" filepath="F:\androidspace\InflaterAutoTest\inflaterauto\infaterauto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inflaterauto/inflaterauto.iml" filepath="$PROJECT_DIR$/inflaterauto/inflaterauto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inflaterauto-annotation/inflaterauto-annotation.iml" filepath="$PROJECT_DIR$/inflaterauto-annotation/inflaterauto-annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inflaterauto-compiler/inflaterauto-compiler.iml" filepath="$PROJECT_DIR$/inflaterauto-compiler/inflaterauto-compiler.iml" />
     </modules>
   </component>
 </project>

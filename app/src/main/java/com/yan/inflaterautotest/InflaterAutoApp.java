@@ -4,7 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 
-import com.yan.infaterauto.InflaterAuto;
+import com.yan.inflaterauto.InflaterAuto;
+import com.yan.inflaterauto.AutoBaseOn;
 
 public class InflaterAutoApp extends Application {
 
@@ -14,8 +15,9 @@ public class InflaterAutoApp extends Application {
         InflaterAuto.init(new InflaterAuto.Builder(this)
                 .width(720)
                 .height(1280)
-                .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
+                .baseOnDirection(AutoBaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
                 .addException(AppBarLayout.class)//add do not need adjust view type
+                .inflaterConvert(new InfAutoInflaterConvert())
                 .build()
         );
     }
