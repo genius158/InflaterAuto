@@ -20,8 +20,7 @@ class AutoInflater extends LayoutInflater {
     private static final String[] sClassPrefixList = {
             "android.widget.",
             "android.webkit.",
-            "android.app.",
-            ""
+            "android.app."
     };
 
     /**
@@ -76,7 +75,7 @@ class AutoInflater extends LayoutInflater {
     public void setFactory(Factory factory) {
         // Only set our factory and wrap calls to the Factory trying to be set!
         if (!(factory instanceof WrapperFactory)) {
-            super.setFactory(new WrapperFactory(inflaterAuto, factory));
+            super.setFactory(new WrapperFactory(this, inflaterAuto, factory));
         } else {
             super.setFactory(factory);
         }
@@ -88,20 +87,21 @@ class AutoInflater extends LayoutInflater {
         // Only set our factory and wrap calls to the Factory2 trying to be set!
         if (!(factory2 instanceof WrapperFactory2)) {
             // LayoutInflaterCompat.setFactory(this, new WrapperFactory2(factory2, inflaterFactory));
-            super.setFactory2(new WrapperFactory2(inflaterAuto, factory2));
+            super.setFactory2(new WrapperFactory2(this, inflaterAuto, factory2));
         } else {
             super.setFactory2(factory2);
         }
     }
 
-
-    /**
-     * The LayoutInflater onCreateView is the fourth port of call for LayoutInflation.
-     * BUT only for none CustomViews.
-     */
-    @Override
-    protected View onCreateView(View parent, String name, AttributeSet attrs) throws ClassNotFoundException {
-        return AutoUtils.autoView(super.onCreateView(parent, inflaterAuto.getConvertNamePair(name), attrs), getContext(), attrs);
+    private View innerCreateView(View view, String name, AttributeSet attrs) {
+        if (view != null) {
+            return view;
+        }
+        try {
+            return createView(name, "", attrs);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     /**
@@ -113,6 +113,7 @@ class AutoInflater extends LayoutInflater {
     protected View onCreateView(String name, AttributeSet attrs) throws ClassNotFoundException {
         // This mimics the {@code PhoneLayoutInflater} in the way it tries to inflate the base
         // classes, if this fails its pretty certain the app will fail at this point.
+        name = inflaterAuto.getConvertNamePair(name);
         View view = null;
         for (String prefix : sClassPrefixList) {
             try {
@@ -133,15 +134,20 @@ class AutoInflater extends LayoutInflater {
     private static class WrapperFactory implements Factory {
         private final Factory factory;
         private final InflaterAuto inflaterAuto;
+        private final AutoInflater autoInflater;
 
-        private WrapperFactory(InflaterAuto inflaterAuto, Factory factory) {
+        private WrapperFactory(AutoInflater autoInflater, InflaterAuto inflaterAuto, Factory factory) {
             this.inflaterAuto = inflaterAuto;
+            this.autoInflater = autoInflater;
             this.factory = factory;
         }
 
         @Override
         public View onCreateView(String name, Context context, AttributeSet attrs) {
-            return AutoUtils.autoView(factory.onCreateView(inflaterAuto.getConvertNamePair(name), context, attrs), context, attrs);
+            name = inflaterAuto.getConvertNamePair(name);
+            View view = factory.onCreateView(name, context, attrs);
+            view = autoInflater.innerCreateView(view, name, attrs);
+            return AutoUtils.autoView(view, context, attrs);
         }
     }
 
@@ -152,20 +158,25 @@ class AutoInflater extends LayoutInflater {
     private static class WrapperFactory2 implements Factory2 {
         private final Factory2 factory2;
         private final InflaterAuto inflaterAuto;
+        private final AutoInflater autoInflater;
 
-        private WrapperFactory2(InflaterAuto inflaterAuto, Factory2 factory2) {
+        private WrapperFactory2(AutoInflater autoInflater, InflaterAuto inflaterAuto, Factory2 factory2) {
+            this.autoInflater = autoInflater;
             this.inflaterAuto = inflaterAuto;
             this.factory2 = factory2;
         }
 
         @Override
         public View onCreateView(String name, Context context, AttributeSet attrs) {
-            return AutoUtils.autoView(factory2.onCreateView(inflaterAuto.getConvertNamePair(name), context, attrs), context, attrs);
+            return onCreateView(null, name, context, attrs);
         }
 
         @Override
         public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-            return AutoUtils.autoView(factory2.onCreateView(parent, inflaterAuto.getConvertNamePair(name), context, attrs), context, attrs);
+            name = inflaterAuto.getConvertNamePair(name);
+            View view = factory2.onCreateView(parent, name, context, attrs);
+            view = autoInflater.innerCreateView(view, name, attrs);
+            return AutoUtils.autoView(view, context, attrs);
         }
     }
 }

@@ -1,5 +1,5 @@
 # InflaterAuto
-一个够小够简单的UI适配库（仅仅 四个class加一个内部类还有一个enum）
+UI适配库(AndroidAutoLayout替代方案)
 
 #### 图例
 以下设计图纸为720_1280(图例分辨率分别为:1080_1920、480_800、1920_1080)，布局中不属于ViewGroup的布局设置都是
@@ -26,18 +26,17 @@ void rInflate(XmlPullParser parser, View parent, Context context,
     final View view = createViewFromTag(parent, name, context, attrs);
     final ViewGroup viewGroup = (ViewGroup) parent;
     final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
-    rInflateChildren(parser, view, attrs, true);//这里是归调继续创建View
+    rInflateChildren(parser, view, attrs, true);//这里是递归调继续创建View
     viewGroup.addView(view, params);
     ...
     }
 ```
 可以看到，LayoutParams是在这里创建的，这个方法是我们最需要更改操作的，然而我们并不能覆写这个方法，AndroidAutoLayout有一系列的Auto开头的ViewGroup
-，其重写的也就是generateLayoutParams，直接返回调整过的params，然而它仍然需要在OnMeasure的时候对所有子View内部相关属性做调整，
-如果想在rInflate方法里，在创建完View后直接做调整，需要我们完全重写LayoutInflater，然而一些内部方法，我们并不能使用，同时在
-Android自身的升级过程中，这个类的各种更改，难以把控。最终还是选择在inflate返回View以后直接对View做调整，来实现适配。
+，其重写的也就是generateLayoutParams，直接返回调整过的params，然而它仍然需要在OnMeasure的时候对所有子View内部相关属性做调整，为了提升效率，
+2.x不在返回整个View后递归调整，而是，采用View自身的属性，在View生成后直接调整，LayoutParams在父类的生成后直接调整，可调整LayoutParams的父类配置注解，在编译时自动生成。
 
 ## gradle
-compile 'com.yan:inflaterauto:1.0.1'
+compile 'com.yan:inflaterauto:2.0.01'
 
 ## 使用
 ```
@@ -47,11 +46,15 @@ public class InflaterAutoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InflaterAuto.init(new InflaterAuto.Builder(this)
+
+        /*
+         * 以下可以写在任何地方，只要在生成View之前
+         */
+        InflaterAuto.init(new InflaterAuto.Builder()
             .width(720)
             .height(1280)
             .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
-            .addException(AppBarLayout.class)//add do not need adjust view type
+            .inflaterConvert(new InfAutoInflaterConvert())// 由 com.yan.inflaterautotest.InflaterConvert 编译
             .build()
         );
     }
@@ -70,19 +73,37 @@ public class InflaterAutoApp extends Application {
 
 // activity 重写attachBaseContext
 public class MainActivity extends AppCompatActivity {
-  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //如果app支持旋转，请加上supportScreenRotation方法，且在布局设置之前调用
-        //同时保证界面正常销毁重新加载
-        InflaterAuto.getInstance().supportScreenRotation(savedInstanceState, this);
-        setContentView(R.layout.activity_main);
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         //替换Inflater
         super.attachBaseContext(InflaterAuto.wrap(base));
     }
 }
+
+// 注解设置，types 你用到ViewGroup
+// 如果是你自定义的，只会重写参数为context的构造函数和参数为context, attributeSet的构造函数
+// 如果是你自定义View还有用到了其他构造函数请用typesCount
+@Convert(types = {LinearLayout.class
+        , FrameLayout.class
+        , NestedScrollView.class
+        , RecyclerView.class
+        , ListView.class
+        , ScrollView.class
+        , CoordinatorLayout.class
+        , ConstraintLayout.class
+        , AutoLayout.class
+}
+//        , typesCount = {
+//        "com.yan.inflaterautotest.AutoLayout|1100"// "|" 左边全类名，
+//                                                  // 右边 "1100"
+//                                                  // 第一个1表示覆写参数为context的构造函数
+//                                                  // 第二个1表示覆写参数为context, attributeSet的构造函数
+//                                                  // 第三个0表示不覆写参数为context, attributeSet, defStyleAttr的构造函数
+//                                                  // 第四个0表示不覆写参数为context, attributeSet, defStyleAttr, defStyleRes的构造函数
+//}
+)
+public abstract class InflaterConvert implements AutoConvert {// 类名随便写，可以不实现AutoConvert
+}
 ```
+
+

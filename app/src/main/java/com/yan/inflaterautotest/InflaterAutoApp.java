@@ -12,6 +12,10 @@ public class InflaterAutoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        /*
+         * 以下可以写在任何地方，只要在生成View之前
+         */
         InflaterAuto.init(new InflaterAuto.Builder()
                 .width(720)
                 .height(1280)

@@ -19,14 +19,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5px"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="8px">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100px"
