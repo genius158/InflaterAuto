@@ -36,7 +36,8 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 2.x不在返回整个View后递归调整，而是，采用View自身的属性，在View生成后直接调整，LayoutParams在父类的生成后直接调整，可调整LayoutParams的父类配置注解，在编译时自动生成。
 
 ## gradle
-compile 'com.yan:inflaterauto:2.0.01'
+implementation 'com.yan:inflaterauto:2.0.01'
+annotationProcessor 'com.yan:inflaterauto-compiler:2.0.01'
 
 ## 使用
 ```
