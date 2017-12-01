@@ -1,7 +1,6 @@
 package com.yan.inflaterauto;
 
 import android.content.res.TypedArray;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
@@ -32,6 +31,9 @@ public class AutoUtils {
             , android.R.attr.layout_marginBottom
     };
 
+    public static View autoView(View view) {
+        return autoView(view, null, null);
+    }
 
     public static View autoView(View view, Context context, AttributeSet attrs) {
         final InflaterAuto inflaterAuto = InflaterAuto.getInstance();
@@ -42,7 +44,7 @@ public class AutoUtils {
             return null;
         }
 
-        int rotation = inflaterAuto.getRotation();
+        int rotation = inflaterAuto.getOrientation();
         Object tagAuto = view.getTag(R.id.auto_inflater);
         if (tagAuto != null && Integer.parseInt(tagAuto.toString()) == rotation) {
             return view;
@@ -50,6 +52,26 @@ public class AutoUtils {
 
         final float hRatio = inflaterAuto.getHRatio();
         final float vRatio = inflaterAuto.getVRatio();
+
+        if (attrs != null) {
+            autoViewAttr(view, context, attrs, rotation, hRatio, vRatio);
+        } else {
+            autoViewParam(view, rotation, hRatio, vRatio);
+        }
+
+        return view;
+    }
+
+    /**
+     * adjust view by attributeSet
+     * @param view target
+     * @param context context
+     * @param attrs AttributeSet
+     * @param rotation screenRotation
+     * @param hRatio horizontal Ration
+     * @param vRatio vertical ration
+     */
+    private static void autoViewAttr(View view, Context context, AttributeSet attrs, int rotation, float hRatio, float vRatio) {
 
         // view set part
         TypedArray array = context.obtainStyledAttributes(attrs, V);
@@ -99,21 +121,59 @@ public class AutoUtils {
         view.setPadding(pl, pt, pr, pb);
 
         view.setTag(R.id.auto_inflater, rotation);
-        return view;
     }
 
-    public static void autoLayoutParams(ViewGroup.LayoutParams lp, Context context, AttributeSet attrs) {
+
+    /**
+     * adjust view by view self
+     * @param view
+     * @param rotation
+     * @param hRatio
+     * @param vRatio
+     */
+    private static void autoViewParam(View view, int rotation, float hRatio, float vRatio) {
+        if (view instanceof TextView) {
+            ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, ((TextView) view).getTextSize() * Math.min(hRatio, vRatio));
+        }
+        view.setPadding((int) (view.getPaddingLeft() * hRatio + 0.5)
+                , (int) (view.getPaddingTop() * vRatio + 0.5)
+                , (int) (view.getPaddingRight() * hRatio + 0.5)
+                , (int) (view.getPaddingBottom() * vRatio + 0.5));
+
+        view.setTag(R.id.auto_inflater, rotation);
+    }
+
+    public static void autoLayout(ViewGroup.LayoutParams lp) {
+        autoLayout(lp, null, null);
+    }
+
+    public static void autoLayout(ViewGroup.LayoutParams lp, Context context, AttributeSet attrs) {
         final InflaterAuto inflaterAuto = InflaterAuto.getInstance();
-        if (inflaterAuto == null) {
+        if (inflaterAuto == null || lp == null) {
             return;
         }
 
         final float hRatio = inflaterAuto.getHRatio();
         final float vRatio = inflaterAuto.getVRatio();
 
+        if (attrs != null) {
+            autoLayoutAttr(lp, context, attrs, hRatio, vRatio);
+        } else {
+            autoLayoutParams(lp, hRatio, vRatio);
+        }
+    }
+
+    /**
+     * adjust layout by attributeSet
+     * @param lp
+     * @param context
+     * @param attrs
+     * @param hRatio
+     * @param vRatio
+     */
+    private static void autoLayoutAttr(ViewGroup.LayoutParams lp, Context context, AttributeSet attrs, float hRatio, float vRatio) {
         TypedArray array = context.obtainStyledAttributes(attrs, LP);
         int n = array.getIndexCount();
-
 
         for (int i = 0; i < n; i++) {
             int index = array.getIndex(i);
@@ -154,10 +214,10 @@ public class AutoUtils {
                         mplp.leftMargin = (int) (pxVal * hRatio + 0.5);
                         break;
                     case 4:
-                        mplp.rightMargin = (int) (pxVal * hRatio + 0.5);
+                        mplp.topMargin = (int) (pxVal * vRatio + 0.5);
                         break;
                     case 5:
-                        mplp.topMargin = (int) (pxVal * vRatio + 0.5);
+                        mplp.rightMargin = (int) (pxVal * hRatio + 0.5);
                         break;
                     case 6:
                         mplp.bottomMargin = (int) (pxVal * vRatio + 0.5);
@@ -166,6 +226,22 @@ public class AutoUtils {
             }
         }
         array.recycle();
+    }
+
+    private static void autoLayoutParams(ViewGroup.LayoutParams lp, float hRatio, float vRatio) {
+        if (lp.width != -1 && lp.width != -2) {
+            lp.width = (int) (lp.width * hRatio + 0.5);
+        }
+        if (lp.height != -1 && lp.height != -2) {
+            lp.height = (int) (lp.height * vRatio + 0.5);
+        }
+        if (lp instanceof ViewGroup.MarginLayoutParams) {
+            final ViewGroup.MarginLayoutParams mplp = (ViewGroup.MarginLayoutParams) lp;
+            mplp.leftMargin = (int) (mplp.leftMargin * hRatio + 0.5);
+            mplp.rightMargin = (int) (mplp.rightMargin * hRatio + 0.5);
+            mplp.topMargin = (int) (mplp.topMargin * vRatio + 0.5);
+            mplp.bottomMargin = (int) (mplp.bottomMargin * vRatio + 0.5);
+        }
     }
 
     public static float getValueHorizontal(float value) {

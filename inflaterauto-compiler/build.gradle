@@ -1,4 +1,14 @@
 apply plugin: 'java-library'
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    artifactId = 'inflaterauto-compiler'
+    userOrg = rootProject.userOrg
+    groupId = rootProject.groupId
+    uploadName = rootProject.uploadName
+    publishVersion = rootProject.publishVersion
+    website = rootProject.website
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

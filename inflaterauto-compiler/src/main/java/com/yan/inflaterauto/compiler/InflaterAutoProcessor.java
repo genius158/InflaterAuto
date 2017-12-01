@@ -40,8 +40,12 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Types typesUtils;
     private Filer filer;
-    private final String DEFAULT = "InfAuto";
     private HashMap<String, String> classMap;
+
+    private final String ANDROID = "android.";
+    private final String ANDROID_WIDGET = "android.widget.";
+
+    private final String DEFAULT = "InfAuto";
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -68,11 +72,13 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     }
 
     private void makeAutoViewGroup(Element element) {
+        final String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
+
         TypeElement tyElement = (TypeElement) element;
         Convert convert = tyElement.getAnnotation(Convert.class);
         MirroredTypesException mte = null;
         try {
-            convert.value();
+            convert.types();
         } catch (MirroredTypesException e) {
             mte = e;
         }
@@ -81,33 +87,68 @@ public class InflaterAutoProcessor extends AbstractProcessor {
         }
 
         for (TypeMirror typeMirror : mte.getTypeMirrors()) {
-            String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
-
             TypeElement classTypeElement = (TypeElement) typesUtils.asElement(typeMirror);
             String fullName = classTypeElement.getQualifiedName().toString();
             String className = DEFAULT + classTypeElement.getSimpleName().toString();
 
-            String keyName = fullName;
-            if (fullName.contains("android.widget.")) {
-                keyName = keyName.replace("android.widget.", "");
+            int cons = 12;// 1100
+            if (fullName.contains(ANDROID)) {
+                cons = 14;// 1110
             }
-            classMap.put(keyName, packageName + "." + className);
+            if (fullName.contains(ANDROID_WIDGET)) {
+                cons = 15;// 1111
+            }
+            generate(packageName, fullName, className, cons);
+        }
 
-            TypeSpec.Builder builder = TypeSpec.classBuilder(className)
-                    .addModifiers(Modifier.PUBLIC)
-                    .superclass(ClassName.bestGuess(fullName));
+        String[] classCons = convert.typesCount();
 
-            ClassName contextName = ClassName.bestGuess("android.content.Context");
-            ClassName attributeSetName = ClassName.bestGuess("android.util.AttributeSet");
+        for (String classCon : classCons) {
+            if (!classCon.contains("|")) {
+                continue;
+            }
 
-            try {
+            String[] cc = classCon.split("\\|");
+            final String classStr = cc[0];
+            if (classStr.lastIndexOf(".") == -1 || classStr.lastIndexOf(".") + 1 > classStr.length()) {
+                continue;
+            }
+
+            final String className = DEFAULT + classStr.substring(classStr.lastIndexOf(".") + 1, classStr.length());
+
+            int cons = 14;
+            if (cc.length >= 2) {
+                cons = getConNum(cc[1]);
+            }
+
+            generate(packageName, classStr, className, cons);
+        }
+    }
+
+    private void generate(String packageName, String fullName, String className, int cons) {
+        String keyName = fullName;
+        if (fullName.contains(ANDROID_WIDGET)) {
+            keyName = keyName.replace(ANDROID_WIDGET, "");
+        }
+        classMap.put(keyName, packageName + "." + className);
+
+        TypeSpec.Builder builder = TypeSpec.classBuilder(className)
+                .addModifiers(Modifier.PUBLIC)
+                .superclass(ClassName.bestGuess(fullName));
+
+        ClassName contextName = ClassName.bestGuess("android.content.Context");
+        ClassName attributeSetName = ClassName.bestGuess("android.util.AttributeSet");
+
+        try {
+            if ((cons & 8) == 8) {
                 MethodSpec constructor1 = MethodSpec.constructorBuilder()
                         .addModifiers(Modifier.PUBLIC)
                         .addParameter(contextName, "context")
                         .addStatement("super(context)")
                         .build();
                 builder.addMethod(constructor1);
-
+            }
+            if ((cons & 4) == 4) {
                 MethodSpec constructor2 = MethodSpec.constructorBuilder()
                         .addModifiers(Modifier.PUBLIC)
                         .addParameter(contextName, "context")
@@ -115,41 +156,56 @@ public class InflaterAutoProcessor extends AbstractProcessor {
                         .addStatement("super(context, attributeSet)")
                         .build();
                 builder.addMethod(constructor2);
-
-                if (fullName.contains("android")) {
-                    MethodSpec constructor3 = MethodSpec.constructorBuilder()
-                            .addModifiers(Modifier.PUBLIC)
-                            .addParameter(contextName, "context")
-                            .addParameter(attributeSetName, "attributeSet")
-                            .addParameter(int.class, "defStyleAttr")
-                            .addStatement("super(context, attributeSet, defStyleAttr)")
-                            .build();
-                    builder.addMethod(constructor3);
-                }
-
-                ClassName layoutParamsName;
-                if (fullName.contains("RecyclerView")) {
-                    layoutParamsName = ClassName.bestGuess("android.view.ViewGroup.LayoutParams");
-                } else {
-                    layoutParamsName = ClassName.get(packageName, "LayoutParams");
-                }
-                MethodSpec generateLayoutParams = MethodSpec.methodBuilder("generateLayoutParams")
-                        .addModifiers(Modifier.PUBLIC)
-                        .returns(layoutParamsName)
-                        .addParameter(attributeSetName, "attrs")
-                        .addStatement("$T vlp = super.generateLayoutParams(attrs)", layoutParamsName)
-                        .addStatement("$T.autoLayoutParams(vlp, getContext(), attrs)", ClassName.bestGuess("com.yan.inflaterauto.AutoUtils"))
-                        .addStatement("return vlp")
-                        .build();
-                builder.addMethod(generateLayoutParams);
-
-                JavaFile javaFile = JavaFile.builder(packageName, builder.build()).build();
-
-                javaFile.writeTo(filer);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            if ((cons & 2) == 2) {
+                MethodSpec constructor3 = MethodSpec.constructorBuilder()
+                        .addModifiers(Modifier.PUBLIC)
+                        .addParameter(contextName, "context")
+                        .addParameter(attributeSetName, "attributeSet")
+                        .addParameter(int.class, "defStyleAttr")
+                        .addStatement("super(context, attributeSet, defStyleAttr)")
+                        .build();
+                builder.addMethod(constructor3);
+            }
+            if ((cons & 1) == 1) {
+                MethodSpec constructor4 = MethodSpec.constructorBuilder()
+                        .addModifiers(Modifier.PUBLIC)
+                        .addParameter(contextName, "context")
+                        .addParameter(attributeSetName, "attributeSet")
+                        .addParameter(int.class, "defStyleAttr")
+                        .addParameter(int.class, "defStyleRes")
+                        .addStatement("super(context, attributeSet, defStyleAttr,defStyleRes)")
+                        .build();
+                builder.addMethod(constructor4);
+            }
+
+            ClassName layoutParamsName = ClassName.get(packageName, "LayoutParams");
+            MethodSpec generateLayoutParams = MethodSpec.methodBuilder("generateLayoutParams")
+                    .addModifiers(Modifier.PUBLIC)
+                    .returns(layoutParamsName)
+                    .addParameter(attributeSetName, "attrs")
+                    .addStatement("$T vlp = ($T)super.generateLayoutParams(attrs)", layoutParamsName, layoutParamsName)
+                    .addStatement("$T.autoLayout(vlp, getContext(), attrs)", ClassName.bestGuess("com.yan.inflaterauto.AutoUtils"))
+                    .addStatement("return vlp")
+                    .build();
+            builder.addMethod(generateLayoutParams);
+
+            JavaFile javaFile = JavaFile.builder(packageName, builder.build()).build();
+
+            javaFile.writeTo(filer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    private int getConNum(String strCons) {
+        int c = 0;
+        for (int i = 0; i < strCons.length(); i++) {
+            Character cr = strCons.charAt(i);
+            int icr = (int) (Integer.parseInt(cr.toString()) * Math.pow(2, strCons.length() - i - 1));
+            c += icr;
+        }
+        return c;
     }
 
     private void makeConvert(Element element) {

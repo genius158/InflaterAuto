@@ -18,10 +18,12 @@ public class AutoLayout extends LinearLayout {
         super(context, attrs);
     }
 
+
+
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         ViewGroup.LayoutParams vlp = super.generateLayoutParams(attrs);
-        AutoUtils.autoLayoutParams(vlp,getContext(),attrs);
+        AutoUtils.autoLayout(vlp,getContext(),attrs);
         return super.generateLayoutParams(attrs);
     }
 }

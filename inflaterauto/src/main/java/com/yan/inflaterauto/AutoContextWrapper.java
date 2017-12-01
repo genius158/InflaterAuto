@@ -14,6 +14,11 @@ class AutoContextWrapper extends ContextWrapper {
         super(base);
     }
 
+    /**
+     * hook layout inflater service
+     * @param name
+     * @return
+     */
     @Override
     public Object getSystemService(String name) {
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {

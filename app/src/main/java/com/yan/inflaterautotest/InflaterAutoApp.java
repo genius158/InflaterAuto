@@ -12,12 +12,11 @@ public class InflaterAutoApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InflaterAuto.init(new InflaterAuto.Builder(this)
+        InflaterAuto.init(new InflaterAuto.Builder()
                 .width(720)
                 .height(1280)
                 .baseOnDirection(AutoBaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
-                .addException(AppBarLayout.class)//add do not need adjust view type
-                .inflaterConvert(new InfAutoInflaterConvert())
+                .inflaterConvert(new InfAutoInflaterConvert())// 由 com.yan.inflaterautotest.InflaterConvert 编译
                 .build()
         );
     }

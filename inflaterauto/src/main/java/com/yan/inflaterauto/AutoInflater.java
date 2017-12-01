@@ -113,7 +113,6 @@ class AutoInflater extends LayoutInflater {
     protected View onCreateView(String name, AttributeSet attrs) throws ClassNotFoundException {
         // This mimics the {@code PhoneLayoutInflater} in the way it tries to inflate the base
         // classes, if this fails its pretty certain the app will fail at this point.
-        name = inflaterAuto.getConvertNamePair(name);
         View view = null;
         for (String prefix : sClassPrefixList) {
             try {

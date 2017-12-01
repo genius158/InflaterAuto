@@ -4,19 +4,19 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-import java.util.HashSet;
 import java.util.HashMap;
 
 /**
  * Created by yan on 25/11/2017
  */
 final class AutoConfig {
-    private HashSet<Class> exceptions;
-
     private HashMap<String, String> convertNamePair;
 
     private AutoBaseOn autoBaseOn;
 
+    /**
+     * screen orientation
+     */
     private int orientation;
 
     private float designWidth;
@@ -24,14 +24,6 @@ final class AutoConfig {
 
     private float hRatio;
     private float vRatio;
-
-    AutoConfig setExceptions(HashSet<Class> exceptions) {
-        if (!exceptions.isEmpty()) {
-            this.exceptions = new HashSet<>();
-            this.exceptions.addAll(exceptions);
-        }
-        return this;
-    }
 
     AutoConfig setInflaterConvert(AutoConvert autoConvert) {
         if (autoConvert != null) {
@@ -76,10 +68,6 @@ final class AutoConfig {
         return convertName;
     }
 
-    boolean except(Class clazz) {
-        return exceptions == null || !exceptions.contains(clazz);
-    }
-
     private void calculateRatio(Context context) {
         int tempOrientation = context.getResources().getConfiguration().orientation;
         if (tempOrientation == orientation) {
@@ -106,9 +94,8 @@ final class AutoConfig {
         }
     }
 
-    AutoConfig calculate(Context context) {
+    void calculate(Context context) {
         calculateRatio(context);
-        return this;
     }
 
 }
