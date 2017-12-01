@@ -33,6 +33,7 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 
 ## gradle
 implementation 'com.yan:inflaterauto:2.0.01'
+<br/>
 annotationProcessor 'com.yan:inflaterauto-compiler:2.0.01'
 
 ## 使用
