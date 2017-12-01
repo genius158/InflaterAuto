@@ -13,10 +13,6 @@ UI适配库(AndroidAutoLayout替代方案)
 
 
 ## 概述
-本库由LayoutInflater入手，更改获取布局解析服务的方法，返回我们自己的布局解析器，在创建View的完成时
-，就对View（包括子View，如果有）的LayoutParams进行调整，来做适配，这个步骤是在View开始测量绘制之前，不会造成二次
-绘制，性能上除了View创建完成时对其递归调整LayoutParams之外，是没有任何影响的。
-
 #### 选择切入点
 ```
 view的设置LayoutParams是在LayoutInflater的rInflate方法中执行的
