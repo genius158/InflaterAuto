@@ -29,7 +29,6 @@ dependencies {
 
 //    implementation 'com.yan:inflaterauto:2.0.01'
 //    annotationProcessor 'com.yan:inflaterauto-compiler:2.0.01'
-
     implementation project(':inflaterauto')
     annotationProcessor project(':inflaterauto-compiler')
 }

@@ -31,7 +31,7 @@ ext {
     userOrg = 'yan157'
     groupId = 'com.yan'
     uploadName = 'inflaterauto'
-    publishVersion = '2.0.01'
+    publishVersion = '2.0.02'
     website = 'https://github.com/genius158/InflaterAuto/'
     licences = ['Apache-2.0']
 }
