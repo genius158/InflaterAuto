@@ -95,9 +95,9 @@ public abstract class InflaterConvert implements AutoConvert {// 类名随便写
 }
 
 ## 鸣谢
-AndroidAutoLayout
+[hongyangAndroid/AndroidAutoLayout](https://github.com/hongyangAndroid/AndroidAutoLayout)
 <br/>
-Calligraphy
+[chrisjenx/Calligraphy](https://github.com/chrisjenx/Calligraphy)
 ```
 
 
