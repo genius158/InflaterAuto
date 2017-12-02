@@ -93,11 +93,9 @@ public class MainActivity extends AppCompatActivity {
 } )
 public abstract class InflaterConvert implements AutoConvert {// 类名随便写，可以不实现AutoConvert
 }
-
+```
 ## 鸣谢
 [hongyangAndroid/AndroidAutoLayout](https://github.com/hongyangAndroid/AndroidAutoLayout)
 <br/>
 [chrisjenx/Calligraphy](https://github.com/chrisjenx/Calligraphy)
-```
-
 
