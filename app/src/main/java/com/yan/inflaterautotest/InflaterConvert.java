@@ -22,7 +22,7 @@ import android.widget.ScrollView;
         , CoordinatorLayout.class
         , ConstraintLayout.class
         , AutoLayout.class
+        , InflaterConvert.class
 })
 public abstract class InflaterConvert implements AutoConvert {
-
 }

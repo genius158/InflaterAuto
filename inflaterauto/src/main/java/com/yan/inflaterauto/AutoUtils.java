@@ -72,7 +72,6 @@ public class AutoUtils {
      * @param vRatio vertical ration
      */
     private static void autoViewAttr(View view, Context context, AttributeSet attrs, int rotation, float hRatio, float vRatio) {
-
         // view set part
         TypedArray array = context.obtainStyledAttributes(attrs, V);
         int n = array.getIndexCount();

@@ -31,7 +31,9 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 import java.util.HashSet;
 import java.util.HashMap;
@@ -44,9 +46,11 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     private Elements elementUtils;
     private Types typesUtils;
     private Filer filer;
+    private Messager messager;
     private HashMap<String, String> classMap;
 
     private final String ANDROID_WIDGET = "android.widget.";
+    private final String VIEW_GROUP = "android.view.ViewGroup";
 
     private final String DEFAULT = "InfAuto";
 
@@ -56,6 +60,7 @@ public class InflaterAutoProcessor extends AbstractProcessor {
         elementUtils = processingEnvironment.getElementUtils();
         filer = processingEnvironment.getFiler();
         typesUtils = processingEnvironment.getTypeUtils();
+        messager = processingEnvironment.getMessager();
     }
 
     @Override
@@ -67,7 +72,6 @@ public class InflaterAutoProcessor extends AbstractProcessor {
 
                 makeAutoViewGroup(element);
                 makeConvert(element);
-
                 return true;
             }
         }
@@ -96,9 +100,14 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     }
 
     private void generate(String packageName, TypeElement element) {
+        if (!typesUtils.isSubtype(element.asType(), elementUtils.getTypeElement(VIEW_GROUP).asType())) {
+            messager.printMessage(Diagnostic.Kind.WARNING, element.getSimpleName().toString() + " is not a ViewGroup");
+            return;
+        }
         try {
             String fullName = element.getQualifiedName().toString();
-            String className = DEFAULT + element.getSimpleName().toString();
+            String simpleName = element.getSimpleName().toString();
+            String className = DEFAULT + simpleName;
 
             String keyName = fullName;
             if (fullName.contains(ANDROID_WIDGET)) {
@@ -113,8 +122,12 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             List<ExecutableElement> listExecutable = ElementFilter.constructorsIn(elements);
 
             for (ExecutableElement executable : listExecutable) {
-                MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
-                        .addModifiers(element.getModifiers());
+                Set<Modifier> modifiers = element.getModifiers();
+                if (modifiers.isEmpty() || (!modifiers.contains(Modifier.PUBLIC) && !modifiers.contains(Modifier.PROTECTED))) {
+                    messager.printMessage(Diagnostic.Kind.WARNING, "check constructor in class " + simpleName);
+                    continue;
+                }
+                MethodSpec.Builder constructor = MethodSpec.constructorBuilder().addModifiers(element.getModifiers());
 
                 StringBuilder statement = new StringBuilder("super(");
                 for (VariableElement variableElement : executable.getParameters()) {
@@ -146,6 +159,8 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             JavaFile javaFile = JavaFile.builder(packageName, builder.build()).build();
             javaFile.writeTo(filer);
             classMap.put(keyName, packageName + "." + className);
+
+            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,15 +169,17 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     private void makeConvert(Element element) {
         try {
             TypeElement classElement = (TypeElement) element;
-            String fullName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
+            String packageName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
             String className = DEFAULT + classElement.getSimpleName().toString();
 
-            ParameterizedTypeName mapName = ParameterizedTypeName.get(ClassName.get(HashMap.class), ClassName.get(String.class), ClassName.get(String.class));
+            final ClassName nameMap = ClassName.get(HashMap.class);
+            final ClassName nameStr = ClassName.get(String.class);
+            ParameterizedTypeName mapName = ParameterizedTypeName.get(nameMap, nameStr, nameStr);
             MethodSpec.Builder getConvertMapBuild = MethodSpec.methodBuilder("getConvertMap")
                     .addAnnotation(Override.class)
                     .addModifiers(Modifier.PUBLIC)
                     .returns(mapName)
-                    .addStatement("$T classMap = new $T<>()", mapName, ClassName.get(HashMap.class));
+                    .addStatement("$T classMap = new $T<>()", mapName, nameMap);
             for (HashMap.Entry<String, String> entry : classMap.entrySet()) {
                 getConvertMapBuild.addStatement("classMap.put($S,$S)", entry.getKey(), entry.getValue());
             }
@@ -171,13 +188,13 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             TypeSpec typeSpec = TypeSpec.classBuilder(className)
                     .addModifiers(Modifier.PUBLIC)
                     .addSuperinterface(ClassName.bestGuess("com.yan.inflaterauto.AutoConvert"))
-                    .superclass(ClassName.get(classElement))
                     .addMethod(getConvertMapBuild.build())
                     .build();
 
-            JavaFile javaFile = JavaFile.builder(fullName, typeSpec).build();
-
+            JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
             javaFile.writeTo(filer);
+
+            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated");
         } catch (IOException e) {
             e.printStackTrace();
         }

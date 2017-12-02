@@ -10,14 +10,13 @@ import com.yan.inflaterauto.AutoUtils;
 
 public class AutoLayout extends LinearLayout {
 
-    public AutoLayout(Context context) {
+    AutoLayout(Context context) {
         super(context);
     }
 
-    public AutoLayout(Context context, @Nullable AttributeSet attrs) {
+    protected AutoLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
-
 
 
     @Override
