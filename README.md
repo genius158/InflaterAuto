@@ -78,10 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-// 注解设置，types 你用到ViewGroup
-// 如果是你自定义的，只会重写参数为context的构造函数和参数为context, attributeSet的构造函数
-// 如果是你自定义View还有用到了其他构造函数请用typesCount
-@Convert(types = {LinearLayout.class
+// 注解设置，value 你用到ViewGroup
+@Convert(value = {LinearLayout.class
         , FrameLayout.class
         , NestedScrollView.class
         , RecyclerView.class
@@ -90,16 +88,7 @@ public class MainActivity extends AppCompatActivity {
         , CoordinatorLayout.class
         , ConstraintLayout.class
         , AutoLayout.class
-}
-//        , typesCount = {
-//        "com.yan.inflaterautotest.AutoLayout|1100"// "|" 左边全类名，
-//                                                  // 右边 "1100"
-//                                                  // 第一个1表示覆写参数为context的构造函数
-//                                                  // 第二个1表示覆写参数为context, attributeSet的构造函数
-//                                                  // 第三个0表示不覆写参数为context, attributeSet, defStyleAttr的构造函数
-//                                                  // 第四个0表示不覆写参数为context, attributeSet, defStyleAttr, defStyleRes的构造函数
-//}
-)
+} )
 public abstract class InflaterConvert implements AutoConvert {// 类名随便写，可以不实现AutoConvert
 }
 ```

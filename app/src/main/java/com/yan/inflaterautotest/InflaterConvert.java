@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 
-@Convert(types = {LinearLayout.class
+@Convert({LinearLayout.class
         , FrameLayout.class
         , NestedScrollView.class
         , RecyclerView.class
@@ -22,16 +22,7 @@ import android.widget.ScrollView;
         , CoordinatorLayout.class
         , ConstraintLayout.class
         , AutoLayout.class
-}
-//        , typesCount = {
-//        "com.yan.inflaterautotest.AutoLayout|1100"// "|" 左边全类名，
-//                                                  // 右边 "1100"
-//                                                  // 第一个1表示覆写参数为context的构造函数
-//                                                  // 第二个1表示覆写参数为context, attributeSet的构造函数
-//                                                  // 第三个0表示不覆写参数为context, attributeSet, defStyleAttr的构造函数
-//                                                  // 第四个0表示不覆写参数为context, attributeSet, defStyleAttr, defStyleRes的构造函数
-//}
-)
+})
 public abstract class InflaterConvert implements AutoConvert {
 
 }

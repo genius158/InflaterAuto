@@ -11,7 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface Convert {
-    Class<?>[] types() default {};
-
-    String[] typesCount()default {};
+    Class<?>[] value() default {};
 }
