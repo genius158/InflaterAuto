@@ -1,1 +1,1 @@
-include ':app', ':inflaterauto'
+include ':app', ':inflaterauto', ':inflaterauto-annotation', ':inflaterauto-compiler'

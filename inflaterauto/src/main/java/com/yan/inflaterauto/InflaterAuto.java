@@ -3,8 +3,6 @@ package com.yan.inflaterauto;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import java.util.HashSet;
-
 /**
  * Created by yan on 25/11/2017
  */
@@ -35,11 +33,11 @@ public class InflaterAuto {
                 .setAutoBaseOn(builder.autoBaseOn)
                 .setDesignHeight(builder.designHeight)
                 .setDesignWidth(builder.designWidth)
-                .setExceptions(builder.exceptions);
+                .setInflaterConvert(builder.autoConvert);
     }
 
-    boolean except(Class clazz) {
-        return config.except(clazz);
+    String getConvertNamePair(String originalName) {
+        return config.getConvertNamePair(originalName);
     }
 
     public float getHRatio() {
@@ -50,7 +48,11 @@ public class InflaterAuto {
         return config.getVRatio();
     }
 
-    void calculate(Context context) {
+    int getOrientation() {
+        return config.getOrientation();
+    }
+
+    void rotationScreen(Context context) {
         config.calculate(context);
     }
 
@@ -60,12 +62,12 @@ public class InflaterAuto {
 
 
     public static class Builder {
-        private final HashSet<Class> exceptions = new HashSet<>();
-
         private AutoBaseOn autoBaseOn = AutoBaseOn.Both;
 
         private float designWidth = 720;
         private float designHeight = 1280;
+
+        private AutoConvert autoConvert;
 
         public Builder width(float designWidth) {
             this.designWidth = designWidth;
@@ -82,8 +84,8 @@ public class InflaterAuto {
             return this;
         }
 
-        public Builder addException(Class exception) {
-            exceptions.add(exception);
+        public Builder inflaterConvert(AutoConvert autoConvert) {
+            this.autoConvert = autoConvert;
             return this;
         }
 

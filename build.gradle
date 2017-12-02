@@ -5,7 +5,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
         mavenCentral()
     }
     dependencies {
@@ -20,7 +19,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
         mavenCentral()
         google()
     }
@@ -28,4 +26,12 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+ext {
+    userOrg = 'yan157'
+    groupId = 'com.yan'
+    uploadName = 'inflaterauto'
+    publishVersion = '2.0.01'
+    website = 'https://github.com/genius158/InflaterAuto/'
+    licences = ['Apache-2.0']
 }
