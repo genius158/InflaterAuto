@@ -194,7 +194,7 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
             javaFile.writeTo(filer);
 
-            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated");
+            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
