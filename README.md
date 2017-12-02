@@ -54,7 +54,9 @@ public class InflaterAutoApp extends Application {
             .width(720)
             .height(1280)
             .baseOnDirection(InflaterAuto.BaseOn.Both)// 宽度根据宽度比例缩放，长度根据长度比例缩放
-            .inflaterConvert(new InfAutoInflaterConvert())// 由 com.yan.inflaterautotest.InflaterConvert 编译
+            // 由 com.yan.inflaterautotest.InflaterConvert 编译生成，
+            // 你也可以添加你自己的实现了Convert的类，替换任何一种view成为你想替换的view
+            .inflaterConvert(new InfAutoInflaterConvert())
             .build()
         );
     }
