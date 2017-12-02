@@ -1,6 +1,7 @@
 # InflaterAuto
-UI适配库(AndroidAutoLayout替代方案)
-
+强大的UI适配库(AndroidAutoLayout替代方案),不只是适配！
+<br/>
+甚至可进行统一的类替换(把所有的TextView替换成ImageView)
 #### 图例
 以下设计图纸为720_1280(图例分辨率分别为:1080_1920、480_800、1920_1080)，布局中不属于ViewGroup的布局设置都是
 采用layout_width="px",android:layout_height="px",android:layout_marginTop="px",android:paddingLeft="px"具体px值设置
@@ -15,6 +16,10 @@ UI适配库(AndroidAutoLayout替代方案)
 
 
 ## 概述
+本库实现，在view生成时直接调整内部相关属性，宽度高度等需要父类调整的，则替换原本的viewgroup为可适配的viewgroup
+</br/>
+是的，本库，可以统一对你想要更改的view全部替换，完成很多其他的事情，所以这不仅仅只是一个适配库
+
 #### 选择切入点
 ```
 view的设置LayoutParams是在LayoutInflater的rInflate方法中执行的
@@ -36,7 +41,7 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 ## gradle
 implementation 'com.yan:inflaterauto:2.0.02'
 <br/>
-annotationProcessor 'com.yan:inflaterauto-compiler:2.0.02'
+annotationProcessor 'com.yan:inflaterauto-compiler:2.0.02'//如果你不需要自动生成适配类的功能，不需要引入
 
 ## 使用
 ```
@@ -96,6 +101,24 @@ public class MainActivity extends AppCompatActivity {
 public abstract class InflaterConvert implements AutoConvert {// 类名随便写，可以不实现AutoConvert
 }
 ```
+## 说明
+view的适配，不包括min和max height、width，因为其中涉及反射，影响效率，暂时不打算处理，同时用的其实也很少～
+类型转换接口
+```
+public interface AutoConvert {
+    HashMap<String, String> getConvertMap();
+}
+```
+如果默认的适配效果满足不了需求，或者你想要的不只是适配功能，你可以自己实现该接口，Hashmap kay为你要替换的view的全类名，value为替换后的类
+<br/>
+<br/>
+例如 动态更新皮肤，你可以重写相关的view，并替换，给它添加一个广播监听，需要换肤的时候，发出广播，然后你重写的view接受到广播
+后就可以做相关操作。 
+<br/>
+是的有了替换view的功能，你可以为所欲为！
+<br/>
+(ps:Hashmap Key是根据xml里的标签名称对应的，比如LinearLayout没有包名，support包下的是全类名)
+
 ## 鸣谢
 [hongyangAndroid/AndroidAutoLayout](https://github.com/hongyangAndroid/AndroidAutoLayout)
 <br/>
