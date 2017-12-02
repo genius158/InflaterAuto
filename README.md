@@ -111,7 +111,7 @@ public interface AutoConvert {
     HashMap<String, String> getConvertMap();
 }
 ```
-如果默认的适配效果满足不了需求，或者你想要的不只是适配功能，你可以自己实现该接口，Hashmap kay为你要替换的view的全类名，value为替换后的类
+如果默认的适配效果满足不了需求，或者你想要的不只是适配功能，你可以自己实现该接口，Hashmap kay为你要替换的view在布局文件中标签的名字，value为替换后的类
 <br/>
 <br/>
 例如 动态更新皮肤，你可以重写相关的view，并替换，给它添加一个广播监听，需要换肤的时候，发出广播，然后你重写的view接受到广播
