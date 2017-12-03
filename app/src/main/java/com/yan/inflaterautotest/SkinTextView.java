@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,7 +24,12 @@ public class SkinTextView extends AppCompatTextView {
     public SkinTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTextColor(Color.parseColor("#333333"));
-        color = Color.parseColor("#d44fa652");
+
+        Drawable background = getBackground();
+        if (background instanceof ColorDrawable) {
+            ColorDrawable colorDrawable = (ColorDrawable) background;
+            color = colorDrawable.getColor();
+        }
     }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
