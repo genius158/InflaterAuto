@@ -5,14 +5,14 @@ publish {
     artifactId = 'inflaterauto-compiler'
     userOrg = rootProject.userOrg
     groupId = rootProject.groupId
-    uploadName = rootProject.uploadName
     publishVersion = rootProject.publishVersion
     website = rootProject.website
+    licences = rootProject.licences
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':inflaterauto-annotation')
+    api 'com.yan:inflaterauto-annotation:2.0.0'
 
     compileOnly 'com.google.auto.service:auto-service:1.0-rc3'
     implementation 'com.squareup:javapoet:1.9.0'

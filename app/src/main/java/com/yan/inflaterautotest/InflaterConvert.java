@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import java.util.HashMap;
 
 @Convert({LinearLayout.class
         , FrameLayout.class
@@ -24,5 +26,11 @@ import android.widget.ScrollView;
         , AutoLayout.class
         , InflaterConvert.class
 })
-public abstract class InflaterConvert implements AutoConvert {
+public class InflaterConvert implements AutoConvert {
+    @Override
+    public HashMap<String, String> getConvertMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextView.class.getSimpleName(), SkinTextView.class.getName());
+        return map;
+    }
 }

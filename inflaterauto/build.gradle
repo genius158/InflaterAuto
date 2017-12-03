@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
-
 publish {
     artifactId = 'inflaterauto'
     userOrg = rootProject.userOrg
     groupId = rootProject.groupId
-    uploadName = rootProject.uploadName
     publishVersion = rootProject.publishVersion
     website = rootProject.website
+    licences = rootProject.licences
 }
 
 android {
@@ -37,5 +36,5 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly 'com.android.support:recyclerview-v7:26.1.0'
-    api project(':inflaterauto-annotation')
+    api 'com.yan:inflaterauto-annotation:2.0.0'
 }

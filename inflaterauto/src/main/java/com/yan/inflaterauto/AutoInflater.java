@@ -98,7 +98,7 @@ class AutoInflater extends LayoutInflater {
             return view;
         }
         try {
-            return createView(name, "", attrs);
+            return createView(name, null, attrs);
         } catch (ClassNotFoundException e) {
             return null;
         }

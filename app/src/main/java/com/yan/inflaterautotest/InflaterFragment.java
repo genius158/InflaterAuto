@@ -26,7 +26,7 @@ public class InflaterFragment extends Fragment {
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new RecyclerView.ViewHolder(getLayoutInflater().inflate(R.layout.simple_item, parent, false)) {
+                return new RecyclerView.ViewHolder(LayoutInflater.from(getContext().getApplicationContext()).inflate(R.layout.simple_item, parent, false)) {
                 };
             }
 

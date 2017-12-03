@@ -1,6 +1,7 @@
 package com.yan.inflaterauto;
 
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
@@ -19,6 +20,8 @@ public class AutoUtils {
             , android.R.attr.paddingTop
             , android.R.attr.paddingRight
             , android.R.attr.paddingBottom
+            , android.R.attr.minWidth
+            , android.R.attr.minHeight
     };
 
     private static final int[] LP = new int[]{// LayoutParams
@@ -64,12 +67,13 @@ public class AutoUtils {
 
     /**
      * adjust view by attributeSet
-     * @param view target
-     * @param context context
-     * @param attrs AttributeSet
+     *
+     * @param view     target
+     * @param context  context
+     * @param attrs    AttributeSet
      * @param rotation screenRotation
-     * @param hRatio horizontal Ration
-     * @param vRatio vertical ration
+     * @param hRatio   horizontal Ration
+     * @param vRatio   vertical ration
      */
     private static void autoViewAttr(View view, Context context, AttributeSet attrs, int rotation, float hRatio, float vRatio) {
         // view set part
@@ -97,6 +101,8 @@ public class AutoUtils {
                         ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, pxVal * Math.min(hRatio, vRatio));
                     }
                     break;
+
+                //padding
                 case 1:
                     pl = pr = (int) (pxVal * hRatio + 0.5);
                     pt = pb = (int) (pxVal * vRatio + 0.5);
@@ -113,6 +119,14 @@ public class AutoUtils {
                 case 5:
                     pb = (int) (pxVal * vRatio + 0.5);
                     break;
+
+                //view min value
+                case 6:
+                    view.setMinimumWidth((int) (pxVal * hRatio + 0.5));
+                    break;
+                case 7:
+                    view.setMinimumHeight((int) (pxVal * vRatio + 0.5));
+                    break;
             }
         }
         array.recycle();
@@ -125,6 +139,7 @@ public class AutoUtils {
 
     /**
      * adjust view by view self
+     *
      * @param view
      * @param rotation
      * @param hRatio
@@ -138,6 +153,11 @@ public class AutoUtils {
                 , (int) (view.getPaddingTop() * vRatio + 0.5)
                 , (int) (view.getPaddingRight() * hRatio + 0.5)
                 , (int) (view.getPaddingBottom() * vRatio + 0.5));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setMinimumWidth((int) (view.getMinimumWidth() * vRatio + 0.5));
+            view.setMinimumHeight((int) (view.getMinimumHeight() * vRatio + 0.5));
+        }
 
         view.setTag(R.id.auto_inflater, rotation);
     }
@@ -164,6 +184,7 @@ public class AutoUtils {
 
     /**
      * adjust layout by attributeSet
+     *
      * @param lp
      * @param context
      * @param attrs
@@ -200,6 +221,7 @@ public class AutoUtils {
                     }
                     break;
             }
+
             if (lp instanceof ViewGroup.MarginLayoutParams) {
                 final ViewGroup.MarginLayoutParams mplp = (ViewGroup.MarginLayoutParams) lp;
                 switch (index) {

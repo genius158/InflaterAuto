@@ -169,6 +169,14 @@ public class InflaterAutoProcessor extends AbstractProcessor {
     private void makeConvert(Element element) {
         try {
             TypeElement classElement = (TypeElement) element;
+            String convertName = "com.yan.inflaterauto.AutoConvert";
+            if (classElement.getInterfaces() == null || !classElement.getInterfaces().contains(elementUtils.getTypeElement(convertName).asType())
+                    || classElement.getModifiers().contains(Modifier.ABSTRACT)) {
+                messager.printMessage(Diagnostic.Kind.ERROR, classElement.getSimpleName().toString()
+                        + " must implement AutoConvert and can not modified with abstract");
+                return;
+            }
+
             String packageName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
             String className = DEFAULT + classElement.getSimpleName().toString();
 
@@ -179,7 +187,9 @@ public class InflaterAutoProcessor extends AbstractProcessor {
                     .addAnnotation(Override.class)
                     .addModifiers(Modifier.PUBLIC)
                     .returns(mapName)
-                    .addStatement("$T classMap = new $T<>()", mapName, nameMap);
+                    .addStatement("$T classMap = new $T<>()", mapName, nameMap)
+                    .addStatement("HashMap<String, String> superMap = super.getConvertMap()")
+                    .addStatement("if(superMap != null){ classMap.putAll(superMap); }");
             for (HashMap.Entry<String, String> entry : classMap.entrySet()) {
                 getConvertMapBuild.addStatement("classMap.put($S,$S)", entry.getKey(), entry.getValue());
             }
@@ -187,7 +197,8 @@ public class InflaterAutoProcessor extends AbstractProcessor {
 
             TypeSpec typeSpec = TypeSpec.classBuilder(className)
                     .addModifiers(Modifier.PUBLIC)
-                    .addSuperinterface(ClassName.bestGuess("com.yan.inflaterauto.AutoConvert"))
+                    .superclass(ClassName.get(classElement.asType()))
+                    .addSuperinterface(ClassName.bestGuess(convertName))
                     .addMethod(getConvertMapBuild.build())
                     .build();
 

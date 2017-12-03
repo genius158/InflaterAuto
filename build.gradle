@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
         google()
         jcenter()
@@ -30,8 +30,7 @@ task clean(type: Delete) {
 ext {
     userOrg = 'yan157'
     groupId = 'com.yan'
-    uploadName = 'inflaterauto'
-    publishVersion = '2.0.02'
+    publishVersion ='2.0.11'
     website = 'https://github.com/genius158/InflaterAuto/'
     licences = ['Apache-2.0']
 }

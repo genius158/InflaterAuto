@@ -39,9 +39,9 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 2.x不在返回整个View后递归调整，而是，采用View自身的属性，在View生成后直接调整，LayoutParams在父类的生成后直接调整，可调整LayoutParams的父类配置注解，在编译时自动生成。
 
 ## gradle
-implementation 'com.yan:inflaterauto:2.0.04'
+implementation 'com.yan:inflaterauto:2.0.11'
 <br/>
-annotationProcessor 'com.yan:inflaterauto-compiler:2.0.04'//如果你不需要自动生成适配类的功能，不需要引入
+annotationProcessor 'com.yan:inflaterauto-compiler:2.0.11'//如果你不需要自动生成适配类的功能，不需要引入
 
 ## 使用
 ```
@@ -98,11 +98,15 @@ public class MainActivity extends AppCompatActivity {
         , ConstraintLayout.class
         , AutoLayout.class
 } )
-public abstract class InflaterConvert implements AutoConvert {// 类名随便写，可以不实现AutoConvert
+public class InflaterConvert implements AutoConvert {// 类名随便写
+ @Override
+    public HashMap<String, String> getConvertMap() {
+        return null;// 添加映射
+    }
 }
 ```
 ## 说明
-view的适配，不包括min和max height、width，因为其中涉及反射，影响效率，暂时不打算处理，同时用的其实也很少～
+view的适配，不包括maxHeight、maxWidth，因为其中涉及反射，影响效率，暂时不打算处理，同时用的其实也很少～
 <br/>
 <br/>
 类型转换接口
