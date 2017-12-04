@@ -125,6 +125,51 @@ public interface AutoConvert {
 <br/>
 (ps:Hashmap Key是根据xml里的标签名称对应的，比如LinearLayout没有包名，support包下的是全类名)
 
+<br/>
+<br/>
+自动编译生成的 InfAutoInflaterConvert
+
+```
+public class InfAutoInflaterConvert extends InflaterConvert implements AutoConvert {
+    public HashMap<String, String> getConvertMap() {
+        //自己写的InflaterConvert可以先配置映射，这里会把先设置的映射添加进来
+        HashMap<String, String> classMap = new HashMap();
+        HashMap<String, String> superMap = super.getConvertMap();
+        if(superMap != null) {
+            classMap.putAll(superMap);
+        }
+
+        classMap.put("android.support.v7.widget.RecyclerView", "com.yan.inflaterautotest.InfAutoRecyclerView");
+        classMap.put("android.support.design.widget.CoordinatorLayout", "com.yan.inflaterautotest.InfAutoCoordinatorLayout");
+        classMap.put("com.yan.inflaterautotest.AutoLayout", "com.yan.inflaterautotest.InfAutoAutoLayout");
+        classMap.put("ListView", "com.yan.inflaterautotest.InfAutoListView");
+        classMap.put("ScrollView", "com.yan.inflaterautotest.InfAutoScrollView");
+        classMap.put("FrameLayout", "com.yan.inflaterautotest.InfAutoFrameLayout");
+        classMap.put("android.support.v4.widget.NestedScrollView", "com.yan.inflaterautotest.InfAutoNestedScrollView");
+        classMap.put("android.support.constraint.ConstraintLayout", "com.yan.inflaterautotest.InfAutoConstraintLayout");
+        classMap.put("LinearLayout", "com.yan.inflaterautotest.InfAutoLinearLayout");
+        return classMap;
+    }
+}
+
+<br/>
+<br/>
+自动编译生成的 InfAutoFrameLayout
+
+```
+public class InfAutoFrameLayout extends FrameLayout {
+   ...
+   // 构造函数
+   ...
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        LayoutParams vlp = super.generateLayoutParams(attrs);// 拿到LayoutParams
+        AutoUtils.autoLayout(vlp, this.getContext(), attrs);// 适配LayoutParams
+        return vlp;
+    }
+}
+
+
+```
 ## 鸣谢
 [hongyangAndroid/AndroidAutoLayout](https://github.com/hongyangAndroid/AndroidAutoLayout)
 <br/>
