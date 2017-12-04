@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly 'com.android.support:recyclerview-v7:26.1.0'
-    api 'com.yan:inflaterauto-annotation:2.0.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.yan:inflaterauto-annotation:2.0.0'
 }
