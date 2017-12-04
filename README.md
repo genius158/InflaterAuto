@@ -152,6 +152,7 @@ public class InfAutoInflaterConvert extends InflaterConvert implements AutoConve
     }
 }
 
+```
 <br/>
 <br/>
 自动编译生成的 InfAutoFrameLayout
@@ -167,8 +168,6 @@ public class InfAutoFrameLayout extends FrameLayout {
         return vlp;
     }
 }
-
-
 ```
 ## 鸣谢
 [hongyangAndroid/AndroidAutoLayout](https://github.com/hongyangAndroid/AndroidAutoLayout)
