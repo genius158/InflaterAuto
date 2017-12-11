@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.yan.inflaterauto.InflaterAuto;
 
 public class TestActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

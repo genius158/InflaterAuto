@@ -18,9 +18,9 @@ class AutoInflater extends LayoutInflater {
     private InflaterAuto inflaterAuto;
 
     private static final String[] sClassPrefixList = {
-            "android.widget.",
-            "android.webkit.",
-            "android.app."
+            "android.widget."
+            , "android.webkit."
+            , "android.app."
     };
 
     /**
@@ -99,7 +99,7 @@ class AutoInflater extends LayoutInflater {
         }
         try {
             return createView(name, null, attrs);
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             return null;
         }
     }

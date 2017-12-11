@@ -27,9 +27,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-//    implementation project(':inflaterauto')
-//    annotationProcessor project(':inflaterauto-compiler')
+    implementation project(':inflaterauto')
+    annotationProcessor project(':inflaterauto-compiler')
 
-    implementation 'com.yan:inflaterauto:2.0.15'
-    annotationProcessor 'com.yan:inflaterauto-compiler:2.0.15'
+//    implementation 'com.yan:inflaterauto:2.0.15'
+//    annotationProcessor 'com.yan:inflaterauto-compiler:2.0.15'
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="720px"
+    android:layout_height="1280px"
+    android:background="#2c303f9f">
+
+    <FrameLayout
+        android:layout_width="600px"
+        android:layout_height="600px"
+        android:layout_gravity="center"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="dialog测试"
+            android:textSize="40px" />
+    </FrameLayout>
+</FrameLayout>

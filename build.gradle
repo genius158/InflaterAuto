@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.novoda:bintray-release:0.7.0'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,7 +30,7 @@ task clean(type: Delete) {
 ext {
     userOrg = 'yan157'
     groupId = 'com.yan'
-    publishVersion ='2.0.15'
+    publishVersion ='2.0.16'
     website = 'https://github.com/genius158/InflaterAuto/'
     licences = ['Apache-2.0']
 }
