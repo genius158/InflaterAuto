@@ -30,7 +30,7 @@ task clean(type: Delete) {
 ext {
     userOrg = 'yan157'
     groupId = 'com.yan'
-    publishVersion ='2.0.16'
+    publishVersion ='2.0.17'
     website = 'https://github.com/genius158/InflaterAuto/'
     licences = ['Apache-2.0']
 }
