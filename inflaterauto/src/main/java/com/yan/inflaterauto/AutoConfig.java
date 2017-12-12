@@ -4,14 +4,11 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-import java.util.HashMap;
 
 /**
  * Created by yan on 25/11/2017
  */
 final class AutoConfig {
-    private HashMap<String, String> convertNamePair;
-
     private AutoBaseOn autoBaseOn;
 
     /**
@@ -24,13 +21,6 @@ final class AutoConfig {
 
     private float hRatio;
     private float vRatio;
-
-    AutoConfig setInflaterConvert(AutoConvert autoConvert) {
-        if (autoConvert != null) {
-            this.convertNamePair = autoConvert.getConvertMap();
-        }
-        return this;
-    }
 
     AutoConfig setAutoBaseOn(AutoBaseOn autoBaseOn) {
         this.autoBaseOn = autoBaseOn;
@@ -58,14 +48,6 @@ final class AutoConfig {
 
     int getOrientation() {
         return orientation;
-    }
-
-    String getConvertNamePair(String originalName) {
-        String convertName = originalName;
-        if (convertNamePair != null && !convertNamePair.isEmpty() && convertNamePair.containsKey(originalName)) {
-            convertName = convertNamePair.get(originalName);
-        }
-        return convertName;
     }
 
     private void calculateRatio(Context context) {

@@ -1,17 +1,17 @@
 package com.yan.inflaterauto.compiler;
 
-
 import com.google.auto.service.AutoService;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.yan.inflaterauto.annotation.Convert;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.Processor;
@@ -160,7 +160,7 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             javaFile.writeTo(filer);
             classMap.put(keyName, packageName + "." + className);
 
-            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated\n");
+            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated \n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -180,32 +180,38 @@ public class InflaterAutoProcessor extends AbstractProcessor {
             String packageName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
             String className = DEFAULT + classElement.getSimpleName().toString();
 
-            final ClassName nameMap = ClassName.get(HashMap.class);
-            final ClassName nameStr = ClassName.get(String.class);
-            ParameterizedTypeName mapName = ParameterizedTypeName.get(nameMap, nameStr, nameStr);
-            MethodSpec.Builder getConvertMapBuild = MethodSpec.methodBuilder("getConvertMap")
+            MethodSpec.Builder convertViewBuild = MethodSpec.methodBuilder("convertView")
                     .addAnnotation(Override.class)
                     .addModifiers(Modifier.PUBLIC)
-                    .returns(mapName)
-                    .addStatement("$T classMap = new $T<>()", mapName, nameMap)
-                    .addStatement("HashMap<String, String> superMap = super.getConvertMap()")
-                    .addStatement("if(superMap != null){ classMap.putAll(superMap); }");
-            for (HashMap.Entry<String, String> entry : classMap.entrySet()) {
-                getConvertMapBuild.addStatement("classMap.put($S,$S)", entry.getKey(), entry.getValue());
+                    .addParameter(ClassName.bestGuess("android.content.Context"), "context")
+                    .addParameter(String.class, "name")
+                    .addParameter(ClassName.bestGuess("android.util.AttributeSet"), "attr")
+                    .returns(ClassName.bestGuess("android.view.View"))
+
+                    .addCode("View superView = super.convertView(context, name, attr); \n" +
+                            "if(superView != null){ \n" +
+                            "return superView; \n" +
+                            "} \n")
+                    .addCode("switch (name) {\n");
+
+            for (Map.Entry<String, String> entry : classMap.entrySet()) {
+                convertViewBuild.addCode("case \"" + entry.getKey() + "\" : return new " + entry.getValue() + "(context, attr); \n");
             }
-            getConvertMapBuild.addStatement("return classMap");
+
+            convertViewBuild.addCode("}\n"
+                    + " return null; \n");
 
             TypeSpec typeSpec = TypeSpec.classBuilder(className)
                     .addModifiers(Modifier.PUBLIC)
                     .superclass(ClassName.get(classElement.asType()))
                     .addSuperinterface(ClassName.bestGuess(convertName))
-                    .addMethod(getConvertMapBuild.build())
+                    .addMethod(convertViewBuild.build())
                     .build();
 
             JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
             javaFile.writeTo(filer);
 
-            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated\n");
+            System.out.print(":inflaterauto:" + packageName + "." + className + " is generated \n");
         } catch (IOException e) {
             e.printStackTrace();
         }

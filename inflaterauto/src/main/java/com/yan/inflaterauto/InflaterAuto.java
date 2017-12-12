@@ -2,6 +2,8 @@ package com.yan.inflaterauto;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * Created by yan on 25/11/2017
@@ -10,6 +12,8 @@ public class InflaterAuto {
     private static InflaterAuto INFLATER_AUTO;
 
     private final AutoConfig config;
+
+    private final AutoConvert autoConvert;
 
     public static void init(InflaterAuto inflaterAuto) {
         if (INFLATER_AUTO == null) {
@@ -29,15 +33,19 @@ public class InflaterAuto {
     }
 
     private InflaterAuto(Builder builder) {
+        autoConvert = builder.autoConvert;
+
         config = new AutoConfig()
                 .setAutoBaseOn(builder.autoBaseOn)
                 .setDesignHeight(builder.designHeight)
-                .setDesignWidth(builder.designWidth)
-                .setInflaterConvert(builder.autoConvert);
+                .setDesignWidth(builder.designWidth);
     }
 
-    String getConvertNamePair(String originalName) {
-        return config.getConvertNamePair(originalName);
+    View createView(Context context, String name, AttributeSet attr) {
+        if (autoConvert != null) {
+            return autoConvert.convertView(context, name, attr);
+        }
+        return null;
     }
 
     public float getHRatio() {
@@ -85,6 +93,11 @@ public class InflaterAuto {
         }
 
         public Builder inflaterConvert(AutoConvert autoConvert) {
+            this.autoConvert = autoConvert;
+            return this;
+        }
+
+        public Builder setConvert(AutoConvert autoConvert) {
             this.autoConvert = autoConvert;
             return this;
         }

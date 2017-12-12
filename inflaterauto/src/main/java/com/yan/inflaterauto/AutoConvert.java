@@ -1,11 +1,12 @@
 package com.yan.inflaterauto;
 
-import java.util.HashMap;
-
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
 /**
  * Created by yan on 2017/11/28
  */
 
 public interface AutoConvert {
-    HashMap<String, String> getConvertMap();
+    View convertView(Context context, String name, AttributeSet attrs);
 }

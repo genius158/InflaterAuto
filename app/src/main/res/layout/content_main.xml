@@ -10,9 +10,9 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv"
         android:background="#953e8e79"
         android:gravity="center"
         android:text="Hello World!"
@@ -31,8 +31,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="100px"
                 android:id="@+id/tv1"
+                android:layout_width="100px"
                 android:layout_height="100px"
                 android:background="#95878787"
                 android:gravity="center"
@@ -40,8 +40,8 @@
                 android:textSize="42px" />
 
             <TextView
-                android:layout_width="100px"
                 android:id="@+id/tv2"
+                android:layout_width="100px"
                 android:layout_height="100px"
                 android:background="#95828b82"
                 android:gravity="center"
@@ -76,8 +76,8 @@
                 android:textSize="42px" />
 
             <TextView
-                android:layout_width="100px"
                 android:id="@+id/tv6"
+                android:layout_width="100px"
                 android:layout_height="100px"
                 android:background="#d44fa652"
                 android:gravity="center"
@@ -105,8 +105,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv8"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#95878787"
             android:gravity="center"
@@ -114,8 +114,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv9"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#95828b82"
             android:gravity="center"
@@ -123,17 +123,17 @@
             android:textSize="42px" />
 
         <TextView
+            android:id="@+id/tv10"
             android:layout_width="120px"
             android:layout_height="100px"
-            android:id="@+id/tv10"
             android:background="#956f9670"
             android:gravity="center"
             android:text="Hello World!"
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv11"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#956a996c"
             android:gravity="center"
@@ -141,8 +141,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv12"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#954b7b4c"
             android:gravity="center"
@@ -150,8 +150,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv13"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#d44fa652"
             android:gravity="center"
@@ -159,8 +159,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv14"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#4fa652"
             android:gravity="center"
@@ -177,18 +177,18 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv15"
             android:layout_width="100px"
             android:layout_height="100px"
-            android:id="@+id/tv15"
             android:background="#95878787"
             android:gravity="center"
             android:text="Hello World!"
             android:textSize="42px" />
 
         <TextView
+            android:id="@+id/tv16"
             android:layout_width="100px"
             android:layout_height="100px"
-            android:id="@+id/tv16"
             android:background="#95828b82"
             android:gravity="center"
             android:text="Hello World!"
@@ -204,8 +204,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv18"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#956a996c"
             android:gravity="center"
@@ -213,8 +213,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv19"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#954b7b4c"
             android:gravity="center"
@@ -222,8 +222,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv20"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#d44fa652"
             android:gravity="center"
@@ -231,8 +231,8 @@
             android:textSize="42px" />
 
         <TextView
-            android:layout_width="100px"
             android:id="@+id/tv21"
+            android:layout_width="100px"
             android:layout_height="100px"
             android:background="#4fa652"
             android:gravity="center"
@@ -241,11 +241,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical" />
+        android:layout_height="match_parent" />
 
 </com.yan.inflaterautotest.AutoLayout>
