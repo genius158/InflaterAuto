@@ -41,7 +41,7 @@ void rInflate(XmlPullParser parser, View parent, Context context,
 ## gradle
 implementation 'com.yan:inflaterauto:2.0.17'
 <br/>
-annotationProcessor 'com.yan:inflaterauto-compiler:2.0.16'//如果你不需要自动生成适配类的功能，不需要引入
+annotationProcessor 'com.yan:inflaterauto-compiler:2.0.17'//如果你不需要自动生成适配类的功能，不需要引入
 
 ## 使用
 ```
