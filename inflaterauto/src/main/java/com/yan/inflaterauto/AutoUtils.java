@@ -80,7 +80,7 @@ public class AutoUtils {
         TypedArray array = context.obtainStyledAttributes(attrs, V);
         int n = array.getIndexCount();
 
-        Integer pl = null, pr = null, pt = null, pb = null;
+        int pl = view.getPaddingLeft(), pr = view.getPaddingTop(), pt = view.getPaddingRight(), pb = view.getPaddingBottom();
 
         for (int i = 0; i < n; i++) {
             int index = array.getIndex(i);
@@ -131,10 +131,7 @@ public class AutoUtils {
         }
         array.recycle();
 
-        view.setPadding(pl == null ? view.getPaddingLeft() : pl
-                , pt == null ? view.getPaddingTop() : pt
-                , pr == null ? view.getPaddingRight() : pr
-                , pb == null ? view.getPaddingBottom() : pb);
+        view.setPadding(pl, pt, pr, pb);
 
         view.setTag(R.id.auto_inflater, rotation);
     }
